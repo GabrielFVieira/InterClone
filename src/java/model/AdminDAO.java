@@ -1,0 +1,118 @@
+package model;
+
+import aplicacao.Administrador;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet(name = "AdminDAO", urlPatterns = {"/AdminDAO"})
+public class AdminDAO extends HttpServlet implements InterfaceBaseDAO<Administrador>{
+    private Connection conexao;
+    public AdminDAO() {
+        try {
+            conexao = Conexao.criaConexao();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    @Override
+    public List<Administrador> listar() {
+        List<Administrador> resultado = new ArrayList<>();
+        try {
+            Statement st = conexao.createStatement();
+            ResultSet rs = st.executeQuery("select * from administradores");
+            
+            while(rs.next()) {
+                Administrador administrador = new Administrador();
+                administrador.setId(rs.getInt("id"));
+                administrador.setNome(rs.getString("nome"));
+                administrador.setCpf(rs.getString("cpf"));
+                administrador.setSenha(rs.getString("senha"));
+                
+                resultado.add(administrador);
+            } 
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar administradores: " + e.getMessage());
+        }
+        
+        return resultado;
+    }
+    
+    @Override
+    public void salvar(Administrador administrador) {
+        try {
+            String query;
+            if(administrador.getId() != null) {
+                query = "update administradores set nome=?, cpf=? , senha=? where id = ?";
+            } else {
+                query = "insert into administradores(nome,cpf,senha) values (?, ?, ?)";
+            }
+            
+            
+            PreparedStatement sql  = conexao.prepareStatement(query);
+
+            sql.setString(1, administrador.getNome());
+            sql.setString(2, administrador.getCpf());
+            sql.setString(3, administrador.getSenha());
+            
+            if(administrador.getId() != null) {
+                sql.setInt(4, administrador.getId());
+            }
+            
+            sql.executeUpdate();
+            sql.close();
+        } catch (SQLException e) {
+            System.out.println("Erro ao cadastrar administrador: " + e.getMessage());
+        }
+    }
+    
+    @Override
+    public Administrador buscarPorId(int id) {
+        Administrador administrador = new Administrador();
+        try {
+            String sql = "SELECT * FROM administradores WHERE id = ?";
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ps.setInt(1, id);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            if ( rs.next() ) {
+                administrador.setId(rs.getInt("id"));
+                administrador.setNome(rs.getString("nome"));
+                administrador.setCpf(rs.getString("cpf"));
+                administrador.setSenha(rs.getString("senha"));
+            }
+            
+        } catch( SQLException e ) {
+            System.out.println("Erro ao buscar administrador de id " + id + ": " + e.getMessage());
+        }
+        return administrador;
+    }
+    
+    @Override
+    public boolean excluir(int id ) {
+        try {
+            String sql = "DELETE FROM administradores WHERE id = ?";
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.execute();
+            return true;
+        } catch( SQLException e ) {
+            System.out.println("Erro ao excluir administrador de id " + id + ": " + e.getMessage());
+            return false;
+        }
+    }
+}
