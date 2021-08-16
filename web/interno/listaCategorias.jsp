@@ -30,10 +30,10 @@
                             for (int i = 0; i < listaCategorias.size(); i++) {
                                 Categoria categoria = listaCategorias.get(i);
                         %>
-                        <tr class="">
+                        <tr>
                             <td><%=categoria.getId()%></td>
                             <td class="text-left"><%=categoria.getDescricao()%></td>
-                            <td class="flex-row">
+                            <td class="d-flex justify-content-around">
                                 <a href="<%="categorias?acao=editar&id="+ categoria.getId() %>" class="btn btn-primary float-right">Editar</a>
                                 <a href="<%="categorias?acao=excluir&id="+ categoria.getId() %>" class="btn btn-danger float-right">Excluir</a>
                             </td>

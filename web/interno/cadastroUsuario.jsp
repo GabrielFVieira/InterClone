@@ -1,12 +1,9 @@
-<%-- Document : cadastroUsuario Created on : 12/08/2021, 13:54:01 Author : Gabriel --%> <%@page contentType="text/html"
-pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
         <title>InterClone | Cadastro de Usuário</title>
         <%@include file="/header.html" %>
-
-        <title>Cadastro</title>
     </head>
     <body>
         <jsp:include page="/interno/sidebar.jsp" />

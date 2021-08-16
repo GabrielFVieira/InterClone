@@ -40,7 +40,7 @@
                             <td class="text-left"><%=usuario.getCpf()%></td>
                             <td class="text-left"><%=usuario.getNome()%></td>
                             <td><%=usuario.getSuspenso()%></td>
-                            <td class="flex-row">
+                            <td class="d-flex justify-content-around">
                                 <a href="<%="usuarios?acao=editar&id="+ usuario.getId() %>" class="btn btn-primary float-right">Editar</a>
                                 <a href="<%="usuarios?acao=excluir&id="+ usuario.getId() %>" class="btn btn-danger float-right">Excluir</a>
                             </td>

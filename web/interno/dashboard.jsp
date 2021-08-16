@@ -8,7 +8,7 @@
 	<body>
             <jsp:include page="/interno/sidebar.jsp" />
             <section class="home-section">
-                <div class="text">Dashboard do Admnistrador</div>
+                <div class="text">Dashboard do Administrador</div>
             </section>
 
             <%@include file="/base_scripts.html" %>

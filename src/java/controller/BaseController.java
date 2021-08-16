@@ -77,7 +77,9 @@ public abstract class BaseController<T extends Object> extends SessionController
             case "excluir":
                 id = Integer.parseInt(request.getParameter("id"));
                 dao.excluir(id);
-                redirecionarParaListagem(dao, request, response);
+                
+                String urlPattern = this.getClass().getAnnotation(WebServlet.class).urlPatterns()[0];
+                response.sendRedirect(urlPattern.replace("/", ""));
                 break;
             
             default:

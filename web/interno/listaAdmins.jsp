@@ -35,7 +35,7 @@
                             <td><%=admin.getId()%></td>
                             <td class="text-left"><%=admin.getCpf()%></td>
                             <td class="text-left"><%=admin.getNome()%></td>
-                            <td class="flex-row">
+                            <td class="d-flex justify-content-around">
                                 <a href="<%="administradores?acao=editar&id="+ admin.getId() %>" class="btn btn-primary float-right">Editar</a>
                                 <a href="<%="administradores?acao=excluir&id="+ admin.getId() %>" class="btn btn-danger float-right">Excluir</a>
                             </td>

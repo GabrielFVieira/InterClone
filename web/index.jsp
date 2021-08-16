@@ -53,19 +53,13 @@
                             </div>
                             <div class="modal-body">
                                 <form id="form" action="login" method="post">
-                                    <div>
-                                        <div class="row mb-4">
-                                            <div class="form-group">
-                                                <label for="cpf">CPF:</label>
-                                                <input type="text" class="cpf form-control" name="cpf" id="cpf" placeholder="000.000.000-00" />
-                                            </div>
-                                        </div>
-                                        <div class="row mb-4">
-                                            <div class="form-group">
-                                                <label for="password">Senha:</label>
-                                                <input type="password" class="form-control" name="password" id="password" />
-                                            </div>
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="cpf">CPF:</label>
+                                        <input type="text" class="cpf form-control" name="cpf" id="cpf" placeholder="000.000.000-00" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Senha:</label>
+                                        <input type="password" class="form-control" name="password" id="password" />
                                     </div>
                                     <div class="modal-footer">
                                         <input type="submit" value="Entrar" class="btn btn-danger mb-3"/>

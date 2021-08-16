@@ -22,6 +22,22 @@ body {
     margin-top: 1rem;
 }
 
+.login-page {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-form {
+    margin: 2rem;
+    min-width: 300px;
+    padding: 2rem;
+    border-radius: 0.8rem;
+    background-color: #dedee7;
+    position: relative;
+}
+
 .default-table {
     background-color: white;
     font-size: 1rem;
@@ -76,7 +92,6 @@ body {
 .error-msg {
     font-size: 0.8rem;
     position: absolute !important;
-    bottom: -3 !important;
     padding-right: 30px;
     width: 100%;
 }
