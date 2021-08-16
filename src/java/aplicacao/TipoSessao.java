@@ -1,7 +1,7 @@
 package aplicacao;
 
 public enum TipoSessao {
-    ADMNISTRADOR("Admnistrador"),
+    ADMNISTRADOR("Administrador"),
     USUARIO("Usuário"),
     LOGADO("");
     

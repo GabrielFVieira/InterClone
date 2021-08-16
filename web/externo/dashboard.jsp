@@ -10,7 +10,7 @@
             <section class="home-section">
                 <div class="text">
                     <h1>Dashboard do Usuário</h1>
-                    Bem vindo a Dashboard temporária do usuário. <br> 
+                    Bem-vindo a Dashboard temporária do usuário. <br> 
                     Para essa entrega o único botão funcional na barra à esquerda é o <b>Sair</b> <br><br> 
                     Caso deseje acessar a página temporária com os links para os formulários de cadastro de Conta-Corrente e Lançamentos <a href="externo">clique aqui</a>
                 </div>

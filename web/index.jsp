@@ -1,3 +1,4 @@
+<%@page import="aplicacao.Session"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,25 +13,23 @@
                 <nav class="navbar navbar-expand-lg navbar-light fixed-top p-0">
                     <div class="container-fluid">
                         <a class="customBrand" href="#" id="brand">InterClone</a>
-
                         <div class="justify-content-end" id="navbarNavDropdown">
                             <ul class="navbar-nav">
                                 <li class="nav-item dropdown">
-                                    <a
-                                            class="nav-link dropdown-toggle"
-                                            href="#"
-                                            id="loginDropdown"
-                                            role="button"
-                                            data-toggle="modal"
-                                            data-target="#exampleModalCenter"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                    >
+                                    <% if(session.getAttribute("session") != null) { %>
+                                        <% Session sessaoCorrente = (Session) session.getAttribute("session"); %>                                        
+                                        Bem-vindo <%= sessaoCorrente.getNomeUsuario() %>, ir para a
+                                        <a href="dashboard">Dashboard</a>
+                                    <% } else { %>
+                                        <a class="nav-link dropdown-toggle" href="#" id="loginDropdown"
+                                           role="button" data-toggle="modal" data-target="#exampleModalCenter"
+                                           aria-haspopup="true" aria-expanded="false">
                                             Entrar
-                                    </a>
+                                        </a>
+                                    <% } %>
                                 </li>
                             </ul>
-                        </div>
+                        </div>                       
                     </div>
                 </nav>
 
