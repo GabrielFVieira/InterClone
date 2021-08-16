@@ -78,8 +78,7 @@ public abstract class BaseController<T extends Object> extends SessionController
                 id = Integer.parseInt(request.getParameter("id"));
                 dao.excluir(id);
                 
-                String urlPattern = this.getClass().getAnnotation(WebServlet.class).urlPatterns()[0];
-                response.sendRedirect(urlPattern.replace("/", ""));
+                response.sendRedirect(getUrlPattern());
                 break;
             
             default:
@@ -105,6 +104,11 @@ public abstract class BaseController<T extends Object> extends SessionController
         InterfaceBaseDAO<T> dao = getDAO();
         dao.salvar(modelo);
         
-        redirecionarParaListagem(dao, request, response);
+        response.sendRedirect(getUrlPattern());
     }    
+    
+    protected String getUrlPattern() {
+        String urlPattern = this.getClass().getAnnotation(WebServlet.class).urlPatterns()[0];
+        return urlPattern.replace("/", "");
+    }
 }
