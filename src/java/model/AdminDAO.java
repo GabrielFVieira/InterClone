@@ -1,6 +1,7 @@
 package model;
 
 import aplicacao.Administrador;
+import aplicacao.Validador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,13 +49,14 @@ public class AdminDAO extends HttpServlet implements InterfaceBaseDAO<Administra
     @Override
     public void salvar(Administrador administrador) {
         try {
+            Validador.validarNovoCPF(administrador.getCpf());
+            
             String query;
             if(administrador.getId() != null) {
                 query = "update administradores set nome=?, cpf=? , senha=? where id = ?";
             } else {
                 query = "insert into administradores(nome,cpf,senha) values (?, ?, ?)";
             }
-            
             
             PreparedStatement sql  = conexao.prepareStatement(query);
 
@@ -75,7 +77,7 @@ public class AdminDAO extends HttpServlet implements InterfaceBaseDAO<Administra
     
     @Override
     public Administrador buscarPorId(int id) {
-        Administrador administrador = new Administrador();
+        Administrador administrador = null;
         try {
             String sql = "SELECT * FROM administradores WHERE id = ?";
             PreparedStatement ps = conexao.prepareStatement(sql);
@@ -84,6 +86,7 @@ public class AdminDAO extends HttpServlet implements InterfaceBaseDAO<Administra
             ResultSet rs = ps.executeQuery();
             
             if ( rs.next() ) {
+                administrador = new Administrador();
                 administrador.setId(rs.getInt("id"));
                 administrador.setNome(rs.getString("nome"));
                 administrador.setCpf(rs.getString("cpf"));
@@ -92,6 +95,29 @@ public class AdminDAO extends HttpServlet implements InterfaceBaseDAO<Administra
             
         } catch( SQLException e ) {
             System.out.println("Erro ao buscar administrador de id " + id + ": " + e.getMessage());
+        }
+        return administrador;
+    }
+    
+    public Administrador buscarPorCPF(String cpf) {
+        Administrador administrador = null;
+        try {
+            String sql = "SELECT * FROM administradores WHERE cpf = ?";
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ps.setString(1, cpf);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            if ( rs.next() ) {
+                administrador = new Administrador();
+                administrador.setId(rs.getInt("id"));
+                administrador.setNome(rs.getString("nome"));
+                administrador.setCpf(rs.getString("cpf"));
+                administrador.setSenha(rs.getString("senha"));
+            }
+            
+        } catch( SQLException e ) {
+            System.out.println("Erro ao buscar administrador com cpf " + cpf + ": " + e.getMessage());
         }
         return administrador;
     }

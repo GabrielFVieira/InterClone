@@ -31,6 +31,7 @@
                     </div>
                 </div>
 
+                <jsp:include page="/alert_error.jsp" />
                 <button id="btnSubmit" type="submit" class="btn btn-success mt-2"><%= categoria.getId() != null ? "Salvar alterações" : "Cadastrar" %></button>
             </form>
         </section>
@@ -43,7 +44,7 @@
 
         <script>
             $(document).ready(function () {
-                $('#form').validate({
+                const validator = $('#form').validate({
                     errorPlacement: function (label, element) {
                         label.addClass('error-msg text-danger');
                         label.insertAfter(element);
@@ -56,6 +57,8 @@
                         },
                     },
                 });
+                
+                <jsp:include page="/form_error.jsp" />
             });
         </script>
     </body>

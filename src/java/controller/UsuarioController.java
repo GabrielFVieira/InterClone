@@ -2,6 +2,9 @@ package controller;
 
 import aplicacao.TipoSessao;
 import aplicacao.Usuario;
+import aplicacao.Validador;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import model.UsuarioDAO;
@@ -66,4 +69,28 @@ public class UsuarioController extends BaseController<Usuario> {
         return usuario;
     }
 
+    @Override
+    protected Map<String, String> validarModelo(Usuario modelo) {
+            Map<String, String> erros = new HashMap<>();
+            
+            try {
+                Validador.validarCPF(modelo.getCpf());
+            } catch (Exception err) {
+                erros.put("cpf", err.getMessage());           
+            }
+            
+            try {
+                Validador.validarSenha(modelo.getSenha());
+            } catch (Exception err) {
+                erros.put("password", err.getMessage());           
+            }
+            
+            try {
+                Validador.validarCampoTexto(modelo.getNome(), null, 20);
+            } catch (Exception err) {
+                erros.put("name", err.getMessage());           
+            }
+                        
+            return erros;
+    }
 }

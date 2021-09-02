@@ -1,7 +1,10 @@
 package controller;
 
 import aplicacao.TipoSessao;
+import aplicacao.Validador;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +22,7 @@ public abstract class BaseController<T extends Object> extends SessionController
     protected abstract T getModeloVazio();
     protected abstract T getModeloNaRequest(HttpServletRequest request);
     protected abstract TipoSessao getTipoSessaoNecessaria();
+    protected abstract Map<String, String> validarModelo(T modelo);
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,7 +32,6 @@ public abstract class BaseController<T extends Object> extends SessionController
         
         InterfaceBaseDAO<T> dao = getDAO();
         
-        RequestDispatcher rd;
         int id;
         T modelo;
         String acao = (String) request.getParameter("acao");
@@ -41,10 +44,7 @@ public abstract class BaseController<T extends Object> extends SessionController
         switch (acao) {
             case "cadastrar":
                 modelo = getModeloVazio();
-                
-                request.setAttribute(getAtributoJSP(), modelo);
-                rd = request.getRequestDispatcher(getPaginaCadastro());
-                rd.forward(request, response);
+                redirecionarParaCadastro(request, response, modelo, null);
                 break;
                 
             case "editar":
@@ -52,9 +52,7 @@ public abstract class BaseController<T extends Object> extends SessionController
                 modelo = dao.buscarPorId(id);
                 
                 if(modelo != null) {
-                    request.setAttribute(getAtributoJSP(), modelo);
-                    rd = request.getRequestDispatcher(getPaginaCadastro());
-                    rd.forward(request, response);
+                    redirecionarParaCadastro(request, response, modelo, null);
                 } else {
                     System.out.println("Erro ao editar");
                 }    
@@ -87,11 +85,32 @@ public abstract class BaseController<T extends Object> extends SessionController
         
         T modelo = getModeloNaRequest(request);
         
-        InterfaceBaseDAO<T> dao = getDAO();
-        dao.salvar(modelo);
+        Map<String, String> erros = validarModelo(modelo);
+        if(erros != null && !erros.isEmpty()) {
+            redirecionarParaCadastro(request, response, modelo, erros);
+            return;
+        }
         
-        response.sendRedirect(getUrlPattern());
-    }    
+        try {
+            InterfaceBaseDAO<T> dao = getDAO();
+            dao.salvar(modelo);
+
+            response.sendRedirect(getUrlPattern());
+        } catch (Exception err) {
+            erros.put(Validador.ALERTA, err.getMessage());
+            redirecionarParaCadastro(request, response, modelo, erros);
+        }
+    }
+    
+    protected void redirecionarParaCadastro(HttpServletRequest req, HttpServletResponse resp, T modelo, Map<String, String> erros)  throws ServletException, IOException {
+        if(erros != null) {
+            req.setAttribute(Validador.ERROS, erros);
+        }
+        
+        req.setAttribute(getAtributoJSP(), modelo);
+        RequestDispatcher rd = req.getRequestDispatcher(getPaginaCadastro());
+        rd.forward(req, resp);
+    }
     
     protected String getUrlPattern() {
         String urlPattern = this.getClass().getAnnotation(WebServlet.class).urlPatterns()[0];

@@ -33,11 +33,11 @@ public class SessionDAO extends HttpServlet {
         return session;
     }
     
-    private Session logarPorTipo(String cpf, String senha, TipoSessao tipo) {
+    private Session logarPorTipo(String cpf, String senha, TipoSessao tipo) throws Exception {
         try {
             String sql = TipoSessao.ADMNISTRADOR.equals(tipo) ? 
                     "SELECT nome FROM administradores WHERE cpf = ? and senha = ?" :
-                    "SELECT nome FROM usuarios WHERE cpf = ? and senha = ?";
+                    "SELECT nome, suspenso FROM usuarios WHERE cpf = ? and senha = ?";
             
             PreparedStatement ps = conexao.prepareStatement(sql);
             ps.setString(1, cpf);
@@ -46,6 +46,10 @@ public class SessionDAO extends HttpServlet {
             ResultSet rs = ps.executeQuery();
             
             if ( rs.next() ) {
+                if(TipoSessao.USUARIO.equals(tipo) && "S".equals(rs.getString("suspenso"))) {
+                    throw new Exception("Usuário suspenso");
+                }
+                
                 Session session = new Session();
                 session.setNomeUsuario(rs.getString("nome"));
                 session.setTipo(tipo);

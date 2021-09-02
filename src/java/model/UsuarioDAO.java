@@ -1,6 +1,7 @@
 package model;
 
 import aplicacao.Usuario;
+import aplicacao.Validador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,14 +50,15 @@ public class UsuarioDAO extends HttpServlet implements InterfaceBaseDAO<Usuario>
     @Override
     public void salvar(Usuario usuario) {
         try {
+            Validador.validarNovoCPF(usuario.getCpf());
+            
             String query;
             if(usuario.getId() != null) {
                 query = "update usuarios set nome=?, cpf=? , senha=?, suspenso=? where id = ?";
             } else {
                 query = "insert into usuarios(nome,cpf,senha,suspenso) values (?, ?, ?, ?)";
             }
-            
-            
+                       
             PreparedStatement sql  = conexao.prepareStatement(query);
 
             sql.setString(1, usuario.getNome());
@@ -77,7 +79,7 @@ public class UsuarioDAO extends HttpServlet implements InterfaceBaseDAO<Usuario>
     
     @Override
     public Usuario buscarPorId(int id) {
-        Usuario usuario = new Usuario();
+        Usuario usuario = null;
         try {
             String sql = "SELECT * FROM usuarios WHERE id = ?";
             PreparedStatement ps = conexao.prepareStatement(sql);
@@ -86,6 +88,7 @@ public class UsuarioDAO extends HttpServlet implements InterfaceBaseDAO<Usuario>
             ResultSet rs = ps.executeQuery();
             
             if ( rs.next() ) {
+                usuario = new Usuario();
                 usuario.setId(rs.getInt("id"));
                 usuario.setNome(rs.getString("nome"));
                 usuario.setCpf(rs.getString("cpf"));
@@ -95,6 +98,30 @@ public class UsuarioDAO extends HttpServlet implements InterfaceBaseDAO<Usuario>
             
         } catch( SQLException e ) {
             System.out.println("Erro ao buscar usuário de id " + id + ": " + e.getMessage());
+        }
+        return usuario;
+    }
+    
+    public Usuario buscarPorCPF(String cpf) {
+        Usuario usuario = null;
+        try {
+            String sql = "SELECT * FROM usuarios WHERE cpf = ?";
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ps.setString(1, cpf);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            if ( rs.next() ) {
+                usuario = new Usuario();
+                usuario.setId(rs.getInt("id"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setCpf(rs.getString("cpf"));
+                usuario.setSenha(rs.getString("senha"));
+                usuario.setSuspenso(rs.getString("suspenso").toCharArray()[0]);
+            }
+            
+        } catch( SQLException e ) {
+            System.out.println("Erro ao buscar usuário com cpf " + cpf + ": " + e.getMessage());
         }
         return usuario;
     }

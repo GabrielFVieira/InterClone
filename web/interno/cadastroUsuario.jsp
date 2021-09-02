@@ -15,7 +15,7 @@
                 <h2 class="text-center mb-2">Cadastrar Usuário</h2>
 
                 <a href="usuarios" id="btnCancel">
-                        <img src="images/icons/close.png" alt="Cancelar" title="Cancelar" />
+                    <img src="images/icons/close.png" alt="Cancelar" title="Cancelar" />
                 </a>
 
                 <% if(usuario.getId() != null) { %>
@@ -60,6 +60,7 @@
                         </div>
                     </div>
                 <% } %>    
+                <jsp:include page="/alert_error.jsp" />
                 <button id="btnSubmit" type="submit" class="btn btn-success"><%= usuario.getId() != null ? "Salvar alterações" : "Cadastrar" %></button>
             </form>
         </section>
@@ -72,7 +73,7 @@
 
         <script>
             $(document).ready(function () {
-                $('#form').validate({
+                const validator = $('#form').validate({
                     errorPlacement: function (label, element) {
                         label.addClass('error-msg text-danger');
                         label.insertAfter(element);
@@ -95,20 +96,10 @@
                             required: true,
                             equalTo: '#password',
                         },
-                    },
-                    // submitHandler: function (form) {
-                    // 	alert('Cadastro do ' + $(form).find('input[name="name"]').val() + ' realizado');
-                    // 	$.ajax({
-                    // 		url: 'cadastroUsuario',
-                    // 		type: 'POST',
-                    // 		datatype: 'json',
-                    // 		data: data,
-                    // 		success: function (data) {
-                    // 			alert(data);
-                    // 		},
-                    // 	});
-                    // },
+                    }
                 });
+
+                <jsp:include page="/form_error.jsp" />
 
                 $('.cpf').mask('000.000.000-00', { reverse: true });
             });

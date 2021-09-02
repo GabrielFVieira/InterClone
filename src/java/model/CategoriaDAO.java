@@ -70,7 +70,7 @@ public class CategoriaDAO extends HttpServlet implements InterfaceBaseDAO<Catego
     
     @Override
     public Categoria buscarPorId(int id) {
-        Categoria categoria = new Categoria();
+        Categoria categoria = null;
         try {
             String sql = "SELECT * FROM categorias WHERE id = ?";
             PreparedStatement ps = conexao.prepareStatement(sql);
@@ -79,6 +79,7 @@ public class CategoriaDAO extends HttpServlet implements InterfaceBaseDAO<Catego
             ResultSet rs = ps.executeQuery();
             
             if ( rs.next() ) {
+                categoria = new Categoria();
                 categoria.setId(rs.getInt("id"));
                 categoria.setDescricao(rs.getString("descricao"));
             }

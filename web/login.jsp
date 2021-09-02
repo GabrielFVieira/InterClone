@@ -9,19 +9,29 @@
         
         <div class="login-page">
             <form id="form" class="login-form" action="login" method="post">
-                <h2 class="text-center">Credenciais inválidas, tente novamente</h2>
+                <jsp:include page="/alert_error.jsp" />
+
+                <h2 class="text-center">Login</h2>
                 
                 <div class="form-group">
                     <label for="cpf">CPF:</label>
-                    <input type="text" class="cpf form-control" name="cpf" id="cpf" placeholder="000.000.000-00" />
+                    <input type="text" class="cpf form-control" name="cpf" id="cpf" placeholder="000.000.000-00" 
+                        <% if(request.getParameter("cpf") != null) {%> 
+                          value="<%= request.getParameter("cpf")%>" 
+                        <% } %> 
+                    />
                 </div>
 
                 <div class="form-group">
                     <label for="password">Senha:</label>
-                    <input type="password" class="form-control" name="password" id="password" />
+                    <input type="password" class="form-control" name="password" id="password" 
+                        <% if(request.getParameter("password") != null) {%> 
+                          value="<%= request.getParameter("password")%>" 
+                        <% } %> 
+                    />
                 </div>
 
-                <button id="btnSubmit" type="submit" class="btn btn-success mt-3">Cadastrar</button>
+                <button id="btnSubmit" type="submit" class="btn btn-success mt-3">Entrar</button>
             </form>
         </div>
         
@@ -32,7 +42,7 @@
         <script src="js/localization/messages_pt_BR.js"></script>
         <script>
             $(document).ready(function () {
-                $('#form').validate({
+                const validator = $('#form').validate({
                     errorPlacement: function (label, element) {
                         label.addClass('error-msg text-danger');
                         label.insertAfter(element);
@@ -49,7 +59,9 @@
                         },
                     },
                 });
-
+                
+                <jsp:include page="/form_error.jsp" />
+                
                 $('.cpf').mask('000.000.000-00', { reverse: true });
             });
         </script>

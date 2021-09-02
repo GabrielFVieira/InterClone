@@ -2,6 +2,9 @@ package controller;
 
 import aplicacao.Categoria;
 import aplicacao.TipoSessao;
+import aplicacao.Validador;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import model.CategoriaDAO;
@@ -59,4 +62,16 @@ public class CategoriaController extends BaseController<Categoria> {
         return categoria;
     }
 
+    @Override
+    protected Map<String, String> validarModelo(Categoria modelo) {
+        Map<String, String> erros = new HashMap<>();
+
+        try {
+            Validador.validarCampoTexto(modelo.getDescricao(), null, 20);
+        } catch (Exception err) {
+            erros.put("description", err.getMessage());           
+        }
+
+        return erros;
+    }
 }
