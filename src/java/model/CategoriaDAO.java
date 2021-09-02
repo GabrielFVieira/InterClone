@@ -44,12 +44,17 @@ public class CategoriaDAO extends HttpServlet implements InterfaceBaseDAO<Catego
     }
     
     @Override
-    public void salvar(Categoria categoria) {
+    public void salvar(Categoria categoria) throws Exception {
         try {
+            
             String query;
             if(categoria.getId() != null) {
                 query = "update categorias set descricao=? where id = ?";
             } else {
+                if(buscarPorDescricao(categoria.getDescricao()) != null) {
+                    throw new Exception("Categoria já cadastrada");
+                }
+                
                 query = "insert into categorias(descricao) values (?)";
             }
             
@@ -86,6 +91,27 @@ public class CategoriaDAO extends HttpServlet implements InterfaceBaseDAO<Catego
             
         } catch( SQLException e ) {
             System.out.println("Erro ao buscar categoria de id " + id + ": " + e.getMessage());
+        }
+        return categoria;
+    }
+           
+    public Categoria buscarPorDescricao(String descricao) {
+        Categoria categoria = null;
+        try {
+            String sql = "SELECT * FROM categorias WHERE descricao = ?";
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ps.setString(1, descricao);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            if ( rs.next() ) {
+                categoria = new Categoria();
+                categoria.setId(rs.getInt("id"));
+                categoria.setDescricao(rs.getString("descricao"));
+            }
+            
+        } catch( SQLException e ) {
+            System.out.println("Erro ao buscar categoria " + descricao + ": " + e.getMessage());
         }
         return categoria;
     }

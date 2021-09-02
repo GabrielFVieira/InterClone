@@ -48,13 +48,12 @@ public class AdminDAO extends HttpServlet implements InterfaceBaseDAO<Administra
     
     @Override
     public void salvar(Administrador administrador) {
-        try {
-            Validador.validarNovoCPF(administrador.getCpf());
-            
+        try {   
             String query;
             if(administrador.getId() != null) {
                 query = "update administradores set nome=?, cpf=? , senha=? where id = ?";
             } else {
+                Validador.validarNovoCPF(administrador.getCpf());
                 query = "insert into administradores(nome,cpf,senha) values (?, ?, ?)";
             }
             

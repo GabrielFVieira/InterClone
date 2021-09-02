@@ -50,12 +50,11 @@ public class UsuarioDAO extends HttpServlet implements InterfaceBaseDAO<Usuario>
     @Override
     public void salvar(Usuario usuario) {
         try {
-            Validador.validarNovoCPF(usuario.getCpf());
-            
             String query;
             if(usuario.getId() != null) {
                 query = "update usuarios set nome=?, cpf=? , senha=?, suspenso=? where id = ?";
             } else {
+                Validador.validarNovoCPF(usuario.getCpf());
                 query = "insert into usuarios(nome,cpf,senha,suspenso) values (?, ?, ?, ?)";
             }
                        
