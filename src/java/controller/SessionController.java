@@ -32,4 +32,14 @@ public class SessionController extends HttpServlet {
         
         return true;
     }
+    
+    public Session buscarSessao(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        
+        if(session.getAttribute("session") != null) {
+            return (Session) session.getAttribute("session");
+        }
+        
+        return null;
+    }
 }

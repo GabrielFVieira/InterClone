@@ -1,6 +1,7 @@
 package controller;
 
 import aplicacao.Administrador;
+import aplicacao.Session;
 import aplicacao.TipoSessao;
 import aplicacao.Validador;
 import java.util.HashMap;
@@ -68,7 +69,7 @@ public class AdminController extends BaseController<Administrador> {
     }
 
     @Override
-    protected Map<String, String> validarModelo(Administrador modelo) {
+    protected Map<String, String> validarModelo(Administrador modelo, Session session) {
             Map<String, String> erros = new HashMap<>();
             
             try {

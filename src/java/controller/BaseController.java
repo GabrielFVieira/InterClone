@@ -1,5 +1,6 @@
 package controller;
 
+import aplicacao.Session;
 import aplicacao.TipoSessao;
 import aplicacao.Validador;
 import java.io.IOException;
@@ -20,9 +21,9 @@ public abstract class BaseController<T extends Object> extends SessionController
     protected abstract String getAtributoListaJSP();
     protected abstract InterfaceBaseDAO<T> getDAO();
     protected abstract T getModeloVazio();
-    protected abstract T getModeloNaRequest(HttpServletRequest request);
+    protected abstract T getModeloNaRequest(HttpServletRequest request) throws Exception;
     protected abstract TipoSessao getTipoSessaoNecessaria();
-    protected abstract Map<String, String> validarModelo(T modelo);
+    protected abstract Map<String, String> validarModelo(T modelo, Session session);
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -71,7 +72,7 @@ public abstract class BaseController<T extends Object> extends SessionController
         }
     }
     
-    private void redirecionarParaListagem(InterfaceBaseDAO<T> dao, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void redirecionarParaListagem(InterfaceBaseDAO<T> dao, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute(getAtributoListaJSP(), dao.listar());
         RequestDispatcher rd = request.getRequestDispatcher(getPaginaListagem());
         rd.forward(request, response);
@@ -83,15 +84,17 @@ public abstract class BaseController<T extends Object> extends SessionController
             return;
         }
         
-        T modelo = getModeloNaRequest(request);
-        
-        Map<String, String> erros = validarModelo(modelo);
-        if(erros != null && !erros.isEmpty()) {
-            redirecionarParaCadastro(request, response, modelo, erros);
-            return;
-        }
-        
+        Map<String, String> erros = new HashMap<>();
+        T modelo = null;
         try {
+            modelo = getModeloNaRequest(request);
+
+            erros = validarModelo(modelo, buscarSessao(request));
+            if(erros != null && !erros.isEmpty()) {
+                redirecionarParaCadastro(request, response, modelo, erros);
+                return;
+            } 
+
             InterfaceBaseDAO<T> dao = getDAO();
             dao.salvar(modelo);
 

@@ -1,5 +1,3 @@
-<%@page import="aplicacao.TipoSessao"%>
-<%@page import="aplicacao.Session"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="sidebar">
     <div class="logo-details">
@@ -23,25 +21,12 @@
             <span class="tooltip">Conta-Corrente</span>
         </li>
         <li>
-            <a href="#">
+            <a href="lancamentos">
                 <i class='bx bx-bar-chart-alt-2' ></i>
                 <span class="links_name">Lançamentos</span>
             </a>
             <span class="tooltip">Lançamentos</span>
         </li>
-        <li class="profile">
-            <div class="profile-details">
-                <img src="images/profile.png" alt="profileImg" />
-                <div class="name_job">
-                    <% Session sessaoCorrente = (Session) session.getAttribute("session"); %>
-                    <div class="name"><%= sessaoCorrente.getNomeUsuario() %></div>
-                    <div class="job"><%= sessaoCorrente.getTipo().getDescricao()%></div>
-                </div>
-            </div>
-            <a href="logout">
-                <i class="bx bx-log-out" id="logout"></i>
-                <span class="tooltip">Sair</span>
-            </a>
-        </li>
+        <jsp:include page="/sidebarProfile.jsp" />
     </ul>
 </div>

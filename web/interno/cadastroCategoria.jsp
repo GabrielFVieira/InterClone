@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
-        <title>InterClone | Cadastro de Administrador</title>
+        <title>InterClone | Cadastro de Categorias</title>
         <%@include file="/header.html" %>
     </head>
     <body>
@@ -12,7 +12,7 @@
             <% Categoria categoria = (Categoria)request.getAttribute("categoria"); %>
 
             <form id="form" class="main-form" action="categorias" method="post">
-                <h2 class="text-center mb-2">Cadastrar Categoria</h2>
+                <h2 class="text-center mb-2"><%= categoria.getId() != null ? "Editar" : "Cadastrar" %> Categoria</h2>
 
                 <a href="categorias" id="btnCancel">
                         <img src="images/icons/close.png" alt="Cancelar" title="Cancelar" />

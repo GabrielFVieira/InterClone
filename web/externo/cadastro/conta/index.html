@@ -87,7 +87,7 @@
 						},
 						account: {
 							required: true,
-							maxlength: 6,
+							maxlength: 7,
 						},
 					},
 					submitHandler: function (form) {
@@ -97,7 +97,7 @@
 
 				$('#bank').mask('000');
 				$('#agency').mask('000000');
-				$('#account').mask('000000');
+				$('#account').mask('00000-0');
 				$('#btnCancel').click(() => (document.location.href = '/InterClone/externo'));
 			});
 		</script>

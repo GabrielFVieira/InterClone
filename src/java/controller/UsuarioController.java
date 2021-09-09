@@ -1,5 +1,6 @@
 package controller;
 
+import aplicacao.Session;
 import aplicacao.TipoSessao;
 import aplicacao.Usuario;
 import aplicacao.Validador;
@@ -70,7 +71,7 @@ public class UsuarioController extends BaseController<Usuario> {
     }
 
     @Override
-    protected Map<String, String> validarModelo(Usuario modelo) {
+    protected Map<String, String> validarModelo(Usuario modelo, Session session) {
             Map<String, String> erros = new HashMap<>();
             
             try {

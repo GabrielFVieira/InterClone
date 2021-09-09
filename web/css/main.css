@@ -128,3 +128,8 @@ body {
     width: 60%;
     height: 60%;
 }
+
+.chart-container {
+    width: 500px;
+    height: 500px;
+}

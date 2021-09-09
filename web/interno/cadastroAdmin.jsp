@@ -12,7 +12,7 @@
             <% Administrador admin = (Administrador)request.getAttribute("admin"); %>
 
             <form id="form" class="main-form" action="administradores" method="post">
-                <h2 class="text-center mb-2">Cadastrar Administrador</h2>
+                <h2 class="text-center mb-2"><%= admin.getId() != null ? "Editar" : "Cadastrar" %> Administrador</h2>
 
                 <a href="administradores" id="btnCancel">
                         <img src="images/icons/close.png" alt="Cancelar" title="Cancelar" />

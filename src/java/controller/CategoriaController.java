@@ -1,6 +1,7 @@
 package controller;
 
 import aplicacao.Categoria;
+import aplicacao.Session;
 import aplicacao.TipoSessao;
 import aplicacao.Validador;
 import java.util.HashMap;
@@ -63,7 +64,7 @@ public class CategoriaController extends BaseController<Categoria> {
     }
 
     @Override
-    protected Map<String, String> validarModelo(Categoria modelo) {
+    protected Map<String, String> validarModelo(Categoria modelo, Session session) {
         Map<String, String> erros = new HashMap<>();
 
         try {

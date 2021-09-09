@@ -7,7 +7,7 @@ public class Validador {
     public static final String ALERTA = "alerta";
     public static final String ERROS = "erros";
     private static final String MSG_CPF_INVALIDO = "CPF Inválido";
-    private static final String MSG_CAMPO_OBRIGATORIO = "Campo obrigatório";
+    public static final String MSG_CAMPO_OBRIGATORIO = "Campo obrigatório";
     private static final int MIN_CARACTERES_SENHA = 3;
     private static UsuarioDAO usuarioDAO = new UsuarioDAO();
     private static AdminDAO adminDAO = new AdminDAO();
@@ -78,19 +78,36 @@ public class Validador {
         }
     }
     
-    public static void validarCampoTexto(String valor, Integer tamanhoMinimo, Integer tamanhoMaximo) {
-        if(valor == null || valor.isEmpty()) {
+    public static void validarCampoNumerico(Number valor, boolean permitirZero) {
+        if(valor == null) {
             throw new IllegalArgumentException(MSG_CAMPO_OBRIGATORIO);
         }
         
-        if(tamanhoMinimo != null && valor.length() < tamanhoMinimo) {
-            throw new IllegalArgumentException("Mínimo de " + tamanhoMinimo + " caracteres");
-        }
-        
-        if(tamanhoMaximo != null && valor.length() > tamanhoMaximo) {
-            throw new IllegalArgumentException("Máximo de " + tamanhoMinimo + " caracteres");
+        if(valor.longValue() == 0) {
+            throw new IllegalArgumentException("Preencha um valor diferente de zero");
         }
     }
+    
+    public static void validarCampoTexto(String valor, Integer tamanhoMinimo, Integer tamanhoMaximo) {
+        validarCampoTexto(valor, tamanhoMinimo, tamanhoMaximo, true);
+    }
+    
+    public static void validarCampoTexto(String valor, Integer tamanhoMinimo, Integer tamanhoMaximo, boolean obrigatorio) {
+        if((valor == null || valor.isEmpty()) && obrigatorio) {
+            throw new IllegalArgumentException(MSG_CAMPO_OBRIGATORIO);
+        }
+        
+        if(valor != null) {
+            if(tamanhoMinimo != null && valor.length() < tamanhoMinimo) {
+                throw new IllegalArgumentException("Mínimo de " + tamanhoMinimo + " caracteres");
+            }
+
+            if(tamanhoMaximo != null && valor.length() > tamanhoMaximo) {
+                throw new IllegalArgumentException("Máximo de " + tamanhoMinimo + " caracteres");
+            }
+        }
+    }
+    
     
     public static void validarSenha(String senha) {
         validarCampoTexto(senha, MIN_CARACTERES_SENHA, null);
