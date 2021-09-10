@@ -61,15 +61,24 @@ public class LancamentoDAO extends HttpServlet implements InterfaceBaseDAO<Lanca
     }
     
     public List<Lancamento> listar(Integer idUsuario) {
+        return listar(idUsuario, null);
+    }
+    
+    public List<Lancamento> listar(Integer idUsuario, Integer idConta) {
         List<Lancamento> resultado = new ArrayList<>();
         try {
             PreparedStatement ps  = conexao.prepareStatement(
                     "SELECT l.* FROM lancamentos l "
-                    + "inner join contas c "
-                    + "on c.id = l.id_conta "
-                    + "where c.id_usuario = ?");
+                    + "INNER JOIN contas c "
+                    + "ON c.id = l.id_conta "
+                    + "WHERE c.id_usuario = ? "
+                    + (idConta != null ? " AND l.id_conta = ? " : "")
+                    + " ORDER BY l.data DESC");
             
             ps.setInt(1, idUsuario);
+            if(idConta != null) {
+                ps.setInt(2, idConta);
+            }
             ResultSet rs = ps.executeQuery();
             
             while(rs.next()) {

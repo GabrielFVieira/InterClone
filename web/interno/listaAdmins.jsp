@@ -22,7 +22,7 @@
                         <th class="col-sm-1">ID</th>
                         <th class="col-sm-3 text-left">CPF</th>
                         <th class="col-sm-5 text-left">Nome</th>
-                        <th class="col-sm-3">Ações</th>
+                        <th class="col-sm-2">Ações</th>
                     </thead>
                     <tbody>
                         <%
@@ -31,13 +31,15 @@
                             for (int i = 0; i < listaAdmins.size(); i++) {
                                 Administrador admin = listaAdmins.get(i);
                         %>
-                        <tr class="">
+                        <tr>
                             <td><%=admin.getId()%></td>
                             <td class="text-left"><%=admin.getCpf()%></td>
                             <td class="text-left"><%=admin.getNome()%></td>
-                            <td class="d-flex justify-content-around">
-                                <a href="<%="administradores?acao=editar&id="+ admin.getId() %>" class="btn btn-primary float-right">Editar</a>
-                                <a href="<%="administradores?acao=excluir&id="+ admin.getId() %>" class="btn btn-danger float-right">Excluir</a>
+                            <td>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <a href="<%="administradores?acao=editar&id="+ admin.getId() %>" class="btn btn-primary float-right mr-2">Editar</a>
+                                    <a href="<%="administradores?acao=excluir&id="+ admin.getId() %>" class="btn btn-danger float-right">Excluir</a>                                    
+                                </div>
                             </td>
                         </tr>
                         <%

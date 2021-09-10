@@ -15,9 +15,9 @@
             <div class="page-container">
                 <h2>Listagem de Usuários</h2>
                 
-                <div class="d-flex flex-row justify-content-between align-items-baseline">
+                <div class="d-flex flex-row justify-content-between align-items-baseline" style="margin-bottom: -13px !important;">
                     <a class="table-button" href="usuarios?acao=cadastrar">Novo Usuário</a>    
-                    <p>Obs.: Para suspender um usuário clique em <b>Editar</b></p>
+                    <p class="text-right">Obs.: Para suspender um usuário clique em <b>Editar</b></p>
                 </div>
                 
                 <table class="table table-sm table-hover table-bordered default-table">
@@ -26,7 +26,7 @@
                         <th class="col-sm-3 text-left">CPF</th>
                         <th class="col-sm-4 text-left">Nome</th>
                         <th class="col-sm-1">Suspenso</th>
-                        <th class="col-sm-3">Ações</th>
+                        <th class="col-sm-2">Ações</th>
                     </thead>
                     <tbody>
                         <%
@@ -40,10 +40,12 @@
                             <td class="text-left"><%=usuario.getCpf()%></td>
                             <td class="text-left"><%=usuario.getNome()%></td>
                             <td><%=usuario.getSuspenso()%></td>
-                            <td class="d-flex justify-content-around">
-                                <a href="<%="usuarios?acao=editar&id="+ usuario.getId() %>" class="btn btn-primary float-right">Editar</a>
-                                <a href="<%="usuarios?acao=excluir&id="+ usuario.getId() %>" class="btn btn-danger float-right">Excluir</a>
-                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <a href="<%="usuarios?acao=editar&id="+ usuario.getId() %>" class="btn btn-primary float-right mr-2">Editar</a>
+                                    <a href="<%="usuarios?acao=excluir&id="+ usuario.getId() %>" class="btn btn-danger float-right">Excluir</a>                                    
+                                </div>
+                            </td>                             
                         </tr>
                         <%
                             }

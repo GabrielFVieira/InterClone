@@ -9,7 +9,7 @@
         
         <div class="login-page">
             <form id="form" class="login-form" action="login" method="post">
-                <jsp:include page="/alert_error.jsp" />
+                <jsp:include page="/componentes/alert_error.jsp" />
 
                 <h2 class="text-center">Login</h2>
                 
@@ -60,7 +60,7 @@
                     },
                 });
                 
-                <jsp:include page="/form_error.jsp" />
+                <jsp:include page="/componentes/form_error.jsp" />
                 
                 $('.cpf').mask('000.000.000-00', { reverse: true });
             });

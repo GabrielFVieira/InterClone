@@ -103,14 +103,17 @@
                 <div class="row mb-3">
                     <div class="form-group col">
                         <div class="form-group">
-                            <label for="name">Descrição:</label>
+                            <div class="d-flex">
+                                <label for="description">Descrição: </label>
+                                <p class="text-muted ml-1">(máximo de 100 caracteres)</p>
+                            </div>
                             <textarea class="form-control" name="description" id="description" rows="3" maxlength="100" 
                             ><%= lancamento.getDescricao()== null ? "" : lancamento.getDescricao() %></textarea>
                         </div>
                     </div>
                 </div>                
                         
-                <jsp:include page="/alert_error.jsp" />
+                <jsp:include page="/componentes/alert_error.jsp" />
                 <button id="btnSubmit" type="submit" class="btn btn-success mt-2"><%= lancamento.getId() != null ? "Salvar alterações" : "Cadastrar" %></button>
             </form>
         </section>
@@ -158,7 +161,7 @@
                 });
 
                 $('#value').mask('0.000.000.000,00', { reverse: true });
-                <jsp:include page="/form_error.jsp" />
+                <jsp:include page="/componentes/form_error.jsp" />
             });
         </script>
     </body>

@@ -21,7 +21,7 @@
                     <thead>
                         <th class="col-sm-1">ID</th>
                         <th class="col-sm-8 text-left">Descrição</th>
-                        <th class="col-sm-3">Ações</th>
+                        <th class="col-sm-2">Ações</th>
                     </thead>
                     <tbody>
                         <%
@@ -33,10 +33,12 @@
                         <tr>
                             <td><%=categoria.getId()%></td>
                             <td class="text-left"><%=categoria.getDescricao()%></td>
-                            <td class="d-flex justify-content-around">
-                                <a href="<%="categorias?acao=editar&id="+ categoria.getId() %>" class="btn btn-primary float-right">Editar</a>
-                                <a href="<%="categorias?acao=excluir&id="+ categoria.getId() %>" class="btn btn-danger float-right">Excluir</a>
-                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <a href="<%="categorias?acao=editar&id="+ categoria.getId() %>" class="btn btn-primary float-right mr-2">Editar</a>
+                                    <a href="<%="categorias?acao=excluir&id="+ categoria.getId() %>" class="btn btn-danger float-right">Excluir</a>                                    
+                                </div>
+                            </td>                            
                         </tr>
                         <%
                             }

@@ -10,8 +10,10 @@ import aplicacao.Validador;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
@@ -165,8 +167,34 @@ public class LancamentoController extends BaseController<Lancamento> {
     @Override
     protected void redirecionarParaListagem(InterfaceBaseDAO<Lancamento> dao, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LancamentoDAO lancamentoDAO = (LancamentoDAO) dao;
+        Session sessao = buscarSessao(request);
         
-        request.setAttribute(getAtributoListaJSP(), lancamentoDAO.listar(buscarSessao(request).getIdUsuario()));
+        Integer idConta = null;
+        if(request.getParameter("conta") != null) {
+            idConta = Integer.parseInt(request.getParameter("conta"));
+        }  
+        
+        List<Lancamento> lancamentos = lancamentoDAO.listar(sessao.getIdUsuario(), idConta);
+        
+        Double saldo = 0.0;      
+        Map<LocalDate, List<Lancamento>> mapaLancamentos = new LinkedHashMap<LocalDate, List<Lancamento>>();
+        for (Lancamento lancamento : lancamentos) {
+            if(TipoOperacao.CREDITO.equals(lancamento.getOperacao())) {
+                saldo += lancamento.getValor();
+            } else {
+                saldo -= lancamento.getValor();
+            }
+            
+            List<Lancamento> lancamentosData = mapaLancamentos.containsKey(lancamento.getData()) ?
+                    mapaLancamentos.get(lancamento.getData()) : new ArrayList<>();
+                    
+            lancamentosData.add(lancamento);
+            mapaLancamentos.put(lancamento.getData(), lancamentosData);
+        }
+        
+        request.setAttribute("saldo", saldo);
+        request.setAttribute(getAtributoListaJSP(), mapaLancamentos);
+        request.setAttribute("contas", new ContaDAO().listar(sessao.getIdUsuario()));
         RequestDispatcher rd = request.getRequestDispatcher(getPaginaListagem());
         rd.forward(request, response);
     }

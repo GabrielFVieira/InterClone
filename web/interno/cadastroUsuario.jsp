@@ -60,7 +60,7 @@
                         </div>
                     </div>
                 <% } %>    
-                <jsp:include page="/alert_error.jsp" />
+                <jsp:include page="/componentes/alert_error.jsp" />
                 <button id="btnSubmit" type="submit" class="btn btn-success"><%= usuario.getId() != null ? "Salvar alterações" : "Cadastrar" %></button>
             </form>
         </section>
@@ -99,7 +99,7 @@
                     }
                 });
 
-                <jsp:include page="/form_error.jsp" />
+                <jsp:include page="/componentes/form_error.jsp" />
 
                 $('.cpf').mask('000.000.000-00', { reverse: true });
             });

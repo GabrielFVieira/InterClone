@@ -27,6 +27,6 @@
             </a>
             <span class="tooltip">Lançamentos</span>
         </li>
-        <jsp:include page="/sidebarProfile.jsp" />
+        <jsp:include page="/componentes/sidebar_profile.jsp" />
     </ul>
 </div>
