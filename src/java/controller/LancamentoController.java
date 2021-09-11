@@ -9,9 +9,7 @@ import aplicacao.TipoOperacao;
 import aplicacao.Validador;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -177,7 +175,7 @@ public class LancamentoController extends BaseController<Lancamento> {
         List<Lancamento> lancamentos = lancamentoDAO.listar(sessao.getIdUsuario(), idConta);
         
         Double saldo = 0.0;      
-        Map<LocalDate, List<Lancamento>> mapaLancamentos = new LinkedHashMap<LocalDate, List<Lancamento>>();
+        Map<LocalDate, List<Lancamento>> mapaLancamentos = new LinkedHashMap<>();
         for (Lancamento lancamento : lancamentos) {
             if(TipoOperacao.CREDITO.equals(lancamento.getOperacao())) {
                 saldo += lancamento.getValor();

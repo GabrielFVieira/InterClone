@@ -130,11 +130,6 @@ body {
     height: 60%;
 }
 
-.chart-container {
-    width: 500px;
-    height: 500px;
-}
-
 .card_menu {
     width: 20%;
     min-width: 140px;
@@ -248,4 +243,17 @@ body {
 .customTooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+.chart-container {
+    position: relative;
+    width: 60vw;
+    min-width: 250px;
+    margin: 0 auto;
+}
+
+@media (min-width: 700px) {
+    .chart-container {
+        width: 500px;
+    }
 }

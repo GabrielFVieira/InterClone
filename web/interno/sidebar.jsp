@@ -7,28 +7,28 @@
     </div>
     <ul class="nav-list">
         <li>
-            <a href="dashboard">
+            <a onClick="gerarURL('dashboard')">
                 <i class="bx bx-grid-alt"></i>
                 <span class="links_name">Dashboard</span>
             </a>
             <span class="tooltip">Dashboard</span>
         </li>
         <li>
-            <a href="usuarios">
+            <a onClick="gerarURL('usuarios')">
                 <i class="bx bx-user"></i>
                 <span class="links_name">Usuários</span>
             </a>
             <span class="tooltip">Usuários</span>
         </li>
         <li>
-            <a href="administradores">
+            <a onClick="gerarURL('administradores')">
                 <i class="bx bx-task-x"></i>
                 <span class="links_name">Administradores</span>
             </a>
             <span class="tooltip">Administradores</span>
         </li>
         <li>
-            <a href="categorias">
+            <a onClick="gerarURL('categorias')">
                 <i class="bx bxs-category"></i>
                 <span class="links_name">Categorias</span>
             </a>

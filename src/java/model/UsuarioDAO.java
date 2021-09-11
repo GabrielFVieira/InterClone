@@ -1,5 +1,6 @@
 package model;
 
+import aplicacao.Session;
 import aplicacao.Usuario;
 import aplicacao.Validador;
 import java.sql.Connection;
@@ -126,7 +127,7 @@ public class UsuarioDAO extends HttpServlet implements InterfaceBaseDAO<Usuario>
     }
     
     @Override
-    public boolean excluir(int id ) {
+    public boolean excluir(int id, Session session) {
         try {
             String sql = "DELETE FROM usuarios WHERE id = ?";
             PreparedStatement ps = conexao.prepareStatement(sql);

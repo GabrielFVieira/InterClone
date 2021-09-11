@@ -1,6 +1,7 @@
 package model;
 
 import aplicacao.Categoria;
+import aplicacao.Session;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -117,7 +118,7 @@ public class CategoriaDAO extends HttpServlet implements InterfaceBaseDAO<Catego
     }
     
     @Override
-    public boolean excluir(int id ) {
+    public boolean excluir(int id, Session session) {
         try {
             String sql = "DELETE FROM categorias WHERE id = ?";
             PreparedStatement ps = conexao.prepareStatement(sql);

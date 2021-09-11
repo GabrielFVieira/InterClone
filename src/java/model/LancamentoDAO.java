@@ -159,15 +159,21 @@ public class LancamentoDAO extends HttpServlet implements InterfaceBaseDAO<Lanca
         } catch( SQLException e ) {
             System.out.println("Erro ao buscar lancamento de id " + id + ": " + e.getMessage());
         }
-        return  lancamento;
+        return lancamento;
     }
     
     @Override
-    public boolean excluir(int id ) {
+    public boolean excluir(int id, Session session) {
         try {
-            String sql = "DELETE FROM lancamentos WHERE id = ?";
+            String sql = "DELETE lancamentos "
+                        + "FROM lancamentos "
+                        + "INNER JOIN contas "
+                        + "ON contas.id = lancamentos.id_conta "
+                        + "WHERE lancamentos.id = ? "
+                        + " AND contas.id_usuario = ?";
             PreparedStatement ps = conexao.prepareStatement(sql);
             ps.setInt(1, id);
+            ps.setInt(2, session.getIdUsuario());
             ps.execute();
             return true;
         } catch( SQLException e ) {

@@ -61,9 +61,14 @@ public abstract class BaseController<T extends Object> extends SessionController
             
             case "excluir":
                 id = Integer.parseInt(request.getParameter("id"));
-                dao.excluir(id);
+                dao.excluir(id, buscarSessao(request));
                 
-                response.sendRedirect(getUrlPattern());
+                String filtroRedirect = "";
+                if(request.getParameter("filtro") != null) {
+                    filtroRedirect += request.getParameter("filtro") + "=";
+                    filtroRedirect += request.getParameter("valorFiltro");
+                }
+                response.sendRedirect(getUrlPattern() + "?" + filtroRedirect);
                 break;
             
             default:

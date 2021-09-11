@@ -9,7 +9,7 @@
             <div class="job"><%= sessaoCorrente.getTipo().getDescricao()%></div>
         </div>
     </div>
-    <a href="logout">
+    <a onClick="gerarURL('logout')">
         <i class="bx bx-log-out" id="logout"></i>
         <span class="tooltip">Sair</span>
     </a>

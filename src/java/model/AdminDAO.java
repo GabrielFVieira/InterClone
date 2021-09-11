@@ -1,6 +1,7 @@
 package model;
 
 import aplicacao.Administrador;
+import aplicacao.Session;
 import aplicacao.Validador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -122,7 +123,7 @@ public class AdminDAO extends HttpServlet implements InterfaceBaseDAO<Administra
     }
     
     @Override
-    public boolean excluir(int id ) {
+    public boolean excluir(int id, Session session) {
         try {
             String sql = "DELETE FROM administradores WHERE id = ?";
             PreparedStatement ps = conexao.prepareStatement(sql);

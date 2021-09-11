@@ -15,9 +15,9 @@
             <div class="page-container">
                 <h2>Listagem de Categorias</h2>
                 
-                <a class="table-button" href="categorias?acao=cadastrar">Nova Categoria</a>    
-
-                <table class="table table-sm table-hover table-bordered default-table">
+                <a class="table-button btn text-white" onClick="gerarURL('categorias', 'cadastrar');">Nova Categoria</a>    
+                
+                <table class="table table-sm table-hover table-bordered default-table mt-2">
                     <thead>
                         <th class="col-sm-1">ID</th>
                         <th class="col-sm-8 text-left">Descrição</th>
@@ -35,8 +35,8 @@
                             <td class="text-left"><%=categoria.getDescricao()%></td>
                             <td>
                                 <div class="d-flex justify-content-center align-items-center">
-                                    <a href="<%="categorias?acao=editar&id="+ categoria.getId() %>" class="btn btn-primary float-right mr-2">Editar</a>
-                                    <a href="<%="categorias?acao=excluir&id="+ categoria.getId() %>" class="btn btn-danger float-right">Excluir</a>                                    
+                                    <a onClick="gerarURL('categorias', 'editar', <%=categoria.getId()%>);" class="btn btn-primary float-right mr-2 text-white">Editar</a>
+                                    <a onClick="gerarURL('categorias', 'excluir', <%=categoria.getId()%>);" class="btn btn-danger float-right text-white">Excluir</a>                                    
                                 </div>
                             </td>                            
                         </tr>

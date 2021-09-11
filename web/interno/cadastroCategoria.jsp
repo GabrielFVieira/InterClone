@@ -14,8 +14,8 @@
             <form id="form" class="main-form" action="categorias" method="post">
                 <h2 class="text-center mb-2"><%= categoria.getId() != null ? "Editar" : "Cadastrar" %> Categoria</h2>
 
-                <a href="categorias" id="btnCancel">
-                        <img src="images/icons/close.png" alt="Cancelar" title="Cancelar" />
+                <a onClick="gerarURL('categorias')" id="btnCancel">
+                    <img src="images/icons/close.png" alt="Cancelar" title="Cancelar" />
                 </a>
 
                 <% if(categoria.getId() != null) { %>

@@ -23,10 +23,10 @@
                    String sinalSaldo = saldo < 0 ? "- " : ""; %>
                 <div class="d-flex mb-2">
                     <div class="box">
-                        <a class="table-button mr-2" href="lancamentos?acao=cadastrar">Novo Lançamento</a>
-                        <a class="table-button btn-info customTooltip" href="#" style="margin-right: auto; border-radius: 50%;">
+                        <a class="table-button btn mr-2 text-white" onClick="gerarURL('lancamentos', 'cadastrar');">Novo Lançamento</a>
+                        <a class="table-button btn btn-info customTooltip text-white" onClick="gerarURL('balancete');" style="margin-right: auto; border-radius: 50%;">
                             <i class='bx bxs-bar-chart-square' ></i>
-                            <span class="tooltiptext tooltip-top">Visualizar balancete</span>
+                            <span class="tooltiptext tooltip-top">Balancete</span>
                         </a>
                     </div>
                     <div class="box">
@@ -95,11 +95,11 @@
                                             <h6 class="card_menu-subtitle text-muted text-right"><%= lancamento.getConta().getNome()%></h6>
                                         </div>
                                         <div class="card_menu_right">
-                                            <a href="<%="lancamentos?acao=editar&id="+ lancamento.getId() %>" class="btn customTooltip">
+                                            <a onClick="gerarURL('lancamentos', 'editar', <%=lancamento.getId()%>);" class="btn customTooltip">
                                                 <i class='bx bx-edit-alt text-primary'></i>
                                                 <span class="tooltiptext tooltip-right">Editar</span>
                                             </a>
-                                            <a href="<%="lancamentos?acao=excluir&id="+ lancamento.getId() %>" class="btn customTooltip">
+                                            <a onClick="gerarURL('lancamentos', 'excluir', <%=lancamento.getId()%>, 'conta', 'account');" class="btn customTooltip">
                                                 <i class='bx bx-trash text-danger' ></i>
                                                 <span class="tooltiptext tooltip-right">Remover</span>
                                             </a>
@@ -115,7 +115,7 @@
             </div>
         </section>
         <%@include file="/base_scripts.html" %>
-        <script>
+        <script>            
             function onContaChange() {
                 const account = document.getElementById("account").value;
                 

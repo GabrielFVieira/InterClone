@@ -20,7 +20,7 @@
             <form id="form" class="main-form" action="lancamentos" method="post">
                 <h2 class="text-center mb-2"><%= lancamento.getId() != null ? "Editar" : "Cadastrar" %> Lançamento</h2>
 
-                <a href="lancamentos" id="btnCancel">
+                <a onClick="gerarURL('lancamentos')" id="btnCancel">
                     <img src="images/icons/close.png" alt="Cancelar" title="Cancelar" />
                 </a>
 

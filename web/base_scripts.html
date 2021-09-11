@@ -17,4 +17,38 @@
             }
         });
     });
+    
+    function gerarURL(page, acao, id, filtro, valorFiltro) {
+        let url = page;
+        let variaveis = '';
+        
+        if(acao) {
+            variaveis += 'acao=' + acao;
+        }
+
+        if(id) {
+            if(variaveis !== '') {
+                variaveis += '&';
+            }
+            
+            variaveis += 'id=' + id;
+        }
+        
+        if(filtro) {
+            const valor = document.getElementById(valorFiltro).value;
+            if(valor !== '0') {
+                if(variaveis !== '') {
+                    variaveis += '&';
+                }
+            
+                variaveis += 'filtro=' + filtro + '&valorFiltro=' + valor;
+            }
+        }
+        
+        if(variaveis !== '') {
+            url += '?'+ variaveis;
+        }
+        
+        document.location.href=url;
+    }
 </script>

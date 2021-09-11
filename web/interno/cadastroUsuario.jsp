@@ -14,7 +14,7 @@
             <form id="form" class="main-form" action="usuarios" method="post">
                 <h2 class="text-center mb-2"><%= usuario.getId() != null ? "Editar" : "Cadastrar" %> Usuário</h2>
 
-                <a href="usuarios" id="btnCancel">
+                <a onClick="gerarURL('usuarios')" id="btnCancel">
                     <img src="images/icons/close.png" alt="Cancelar" title="Cancelar" />
                 </a>
 

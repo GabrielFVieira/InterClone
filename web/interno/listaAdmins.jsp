@@ -15,9 +15,9 @@
             <div class="page-container">
                 <h2>Listagem de Administradores</h2>
                 
-                <a class="table-button" href="administradores?acao=cadastrar">Novo Administrador</a>    
+                <a class="table-button btn text-white" onClick="gerarURL('administradores', 'cadastrar');">Novo Administrador</a>    
 
-                <table class="table table-sm table-hover table-bordered default-table">
+                <table class="table table-sm table-hover table-bordered default-table mt-2">
                     <thead>
                         <th class="col-sm-1">ID</th>
                         <th class="col-sm-3 text-left">CPF</th>
@@ -37,8 +37,8 @@
                             <td class="text-left"><%=admin.getNome()%></td>
                             <td>
                                 <div class="d-flex justify-content-center align-items-center">
-                                    <a href="<%="administradores?acao=editar&id="+ admin.getId() %>" class="btn btn-primary float-right mr-2">Editar</a>
-                                    <a href="<%="administradores?acao=excluir&id="+ admin.getId() %>" class="btn btn-danger float-right">Excluir</a>                                    
+                                    <a onClick="gerarURL('administradores', 'editar', <%=admin.getId()%>);" class="btn btn-primary float-right mr-2 text-white">Editar</a>
+                                    <a onClick="gerarURL('administradores', 'excluir', <%=admin.getId()%>);" class="btn btn-danger float-right text-white">Excluir</a>                                    
                                 </div>
                             </td>
                         </tr>

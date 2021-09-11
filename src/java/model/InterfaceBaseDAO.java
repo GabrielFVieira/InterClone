@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import aplicacao.Session;
 
 public interface InterfaceBaseDAO<T extends Object> {
     
@@ -10,5 +11,5 @@ public interface InterfaceBaseDAO<T extends Object> {
     
     public void salvar(T obj) throws Exception;
     
-    public boolean excluir(int id);
+    public boolean excluir(int id, Session session);
 }

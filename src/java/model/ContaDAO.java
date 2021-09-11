@@ -137,7 +137,7 @@ public class ContaDAO extends HttpServlet implements InterfaceBaseDAO<Conta> {
     }
     
     @Override
-    public boolean excluir(int id ) {
+    public boolean excluir(int id, Session session) {
         try {
             String sql = "DELETE FROM contas WHERE id = ?";
             PreparedStatement ps = conexao.prepareStatement(sql);
