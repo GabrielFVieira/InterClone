@@ -252,6 +252,10 @@ body {
     margin: 0 auto;
 }
 
+#account:hover {
+    cursor: pointer;
+}
+
 @media (min-width: 700px) {
     .chart-container {
         width: 500px;
