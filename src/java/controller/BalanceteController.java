@@ -4,6 +4,7 @@ import aplicacao.Lancamento;
 import aplicacao.Session;
 import aplicacao.TipoSessao;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,9 +42,12 @@ public class BalanceteController extends SessionController {
             dados.put(categoria, valorCategoria);
         }
         
-
+        Map<String, Double> dadosOrdenados = new LinkedHashMap<>();
+        dados.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
+                .forEachOrdered(x -> dadosOrdenados.put(x.getKey(), x.getValue()));
         
-        req.setAttribute("dados", dados);
+        req.setAttribute("dados", dadosOrdenados);
         req.setAttribute("contas", new ContaDAO().listar(sessao.getIdUsuario()));
         RequestDispatcher rd = req.getRequestDispatcher("/externo/balancete.jsp");
         rd.forward(req, resp);

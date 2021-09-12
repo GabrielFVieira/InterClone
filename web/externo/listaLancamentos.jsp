@@ -25,7 +25,7 @@
                     <div class="box">
                         <a class="table-button btn mr-2 text-white" onClick="gerarURL('lancamentos', 'cadastrar');">Novo Lançamento</a>
                         <a class="table-button btn btn-info customTooltip text-white" onClick="gerarURL('balancete');" style="margin-right: auto; border-radius: 50%;">
-                            <i class='bx bxs-bar-chart-square' ></i>
+                            <i class='bx bx-bar-chart' ></i>
                             <span class="tooltiptext tooltip-top">Balancete</span>
                         </a>
                     </div>

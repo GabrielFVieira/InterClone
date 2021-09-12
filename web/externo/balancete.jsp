@@ -9,7 +9,6 @@
         <%@page import="aplicacao.Conta"%>
         <%@page import="java.util.List"%>
         <%@page import="java.util.ArrayList"%>
-        <%@page import="java.util.Map"%>
         
         <jsp:include page="/externo/sidebar.jsp" />
         <section class="home-section">
@@ -20,8 +19,13 @@
                     <img src="images/icons/close.png" alt="Voltar" title="Voltar" />
                 </a>
                 
+                <% final String GRAFICO = "grafico";
+                   final String TABELA = "tabela";
+                   String tipo = request.getParameter("tipo") != null ? (String) request.getParameter("tipo") : GRAFICO; 
+                   String novoTipo = GRAFICO.equals(tipo) ? TABELA : GRAFICO; %>
+                
                 <div class="d-flex justify-content-between mb-2">
-                    <a class="table-button btn mr-2 text-white" onClick="gerarURL('#')" style="margin-right: auto;">Alterar Visualização</a>
+                    <a class="table-button btn mr-2 text-white" onClick="onContaChange('<%= novoTipo %>');" style="margin-right: auto;">Alterar Visualização</a>
                     <div class="d-flex flex-row align-items-center" style="max-width: 250px; margin-left: auto;">
                         <label class="mb-0 mr-2" for="account">Conta: </label>
                         <select id="account" name="account" class="form-control text-truncate" onchange="onContaChange()">                           
@@ -43,116 +47,42 @@
                         </select>
                     </div>
                 </div>
+                        
                 <div class="chart-container mt-4">
-                    <canvas id="myChart" />
+                    <% if(TABELA.equals(tipo)) { %>
+                        <jsp:include page="balancete/tabelaBalancete.jsp" />
+                    <% } else { %>
+                        <canvas id="myChart" />
+                    <% } %>
                 </div>
             </div>
         </section>
         <%@include file="/base_scripts.html" %>
-        <script src="js/chart.min.js"></script>
-        <script src="js/chartjs-plugin-datalabels.min.js"></script>
-        
-        <%  Map<String, Double> dados = (Map<String, Double>) request.getAttribute("dados");
-            List<String> categorias = new ArrayList<>();
-            List<Double> valores = new ArrayList<>();
-            
-            for(String c : dados.keySet()) {
-                categorias.add(c);
-                valores.add(dados.get(c));
+        <script>
+            function gerarComplemento(tipo, conectivo) {
+                return tipo === '' ? '' : conectivo + tipo;
             }
-        %>
-        
-        <script>                
-            const dynamicColors = function() {
-                var r = Math.floor(Math.random() * 255);
-                var g = Math.floor(Math.random() * 255);
-                var b = Math.floor(Math.random() * 255);
-                return "rgb(" + r + "," + g + "," + b + ")";
-            };
-
-            const data = {
-                labels: [
-                  <% for(String categoria : categorias) { %>
-                      "<%= categoria %>",
-                  <% } %>
-                ],
-                datasets: [{
-                  data: <%= valores.toString() %>,
-                  backgroundColor: [
-                  <% for(Double valor : valores) { %>
-                      dynamicColors(),
-                  <% } %>
-                  ],
-                  hoverOffset: 4
-                }]
-              };
-
-            const ctx = document.getElementById('myChart');
-            const myChart = new Chart(ctx, {
-                type: 'pie',
-                data: data,
-                plugins: [ChartDataLabels],
-                options: {
-                  responsive: true,
-                  maintainAspectRatio: true,
-                  plugins: {
-                    legend: {
-                      position: 'top',
-                    },
-                    title: {
-                      display: false,
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                var label = context.label || '';
-
-                                if (label) {
-                                    label += ': R$';
-                                }
-                                if (context.parsed.y !== null) {
-                                    label += context.parsed.toLocaleString('pt-BR', {
-                                        minimumFractionDigits: 2,
-                                        useGrouping: false
-                                    });
-                                }
-                                
-                                console.log(context);
-
-                                return label;
-                            }
-                        }
-                    },
-                    datalabels: {
-                        formatter: (value, ctx) => {
-                            let sum = 0;
-                            let dataArr = ctx.chart.data.datasets[0].data;
-                            dataArr.map(data => {
-                                sum += data;
-                            });
-
-                            let percentage = (value*100 / sum).toFixed(2)+"%";
-                            return percentage;
-                        },
-                        color: '#fff',
-                        font: {
-                            size: "20",
-                            weight: "bold",
-                        },
-                    },
-                  },
-                },
-            });
-            
-            function onContaChange() {
+            function onContaChange(novoTipo) {
                 const account = document.getElementById("account").value;
+
+                let tipo = '<%= TABELA.equals(tipo) ? "tipo=" + TABELA : "" %>';
+                if(novoTipo) {
+                    if(novoTipo === '<%= GRAFICO %>') {
+                        tipo = '';
+                    } else {
+                        tipo = 'tipo=' + novoTipo;   
+                    }
+                }
                 
                 if(account === '0') {
-                    window.location.href = "balancete";
+                    window.location.href = 'balancete' + gerarComplemento(tipo, '?');
                 } else {
-                    window.location.href = "balancete?conta=" + account;   
+                    window.location.href = 'balancete?conta=' + account + gerarComplemento(tipo, '&');   
                 }
             }
         </script>
+        <% if(GRAFICO.equals(tipo)) { %>
+            <jsp:include page="balancete/scriptsGraficoBalancete.jsp" />
+        <% } %>        
     </body>
 </html>
