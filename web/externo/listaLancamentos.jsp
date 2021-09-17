@@ -15,7 +15,7 @@
         <%@page import="java.util.List"%>
         <%@page import="java.util.Map"%>
 
-        <jsp:include page="/externo/sidebar.jsp" />
+        <jsp:include page="sidebar.jsp" />
         <section class="home-section">
             <div class="page-container">
                 <h2>Lançamentos</h2>

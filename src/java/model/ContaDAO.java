@@ -29,27 +29,7 @@ public class ContaDAO extends HttpServlet implements InterfaceBaseDAO<Conta> {
     
     @Override
     public List<Conta> listar() {
-        List<Conta> resultado = new ArrayList<>();
-        try {
-            Statement st = conexao.createStatement();
-            ResultSet rs = st.executeQuery("select * from contas");
-            
-            while(rs.next()) {
-                Conta conta = new Conta();
-                conta.setId(rs.getInt("id"));
-                conta.setNome(rs.getString("nome_conta"));
-                conta.setBanco(rs.getString("banco"));
-                conta.setAgencia(rs.getString("agencia"));
-                conta.setContaCorrente(rs.getString("conta_corrente"));
-                
-                conta.setUsuario(usuarioDAO.buscarPorId(rs.getInt("id_usuario")));
-                resultado.add(conta);
-            } 
-        } catch (SQLException e) {
-            System.out.println("Erro ao listar contas: " + e.getMessage());
-        }
-        
-        return resultado;
+        throw new UnsupportedOperationException("Listagem sem filtrar por usuário não permitida");
     }
     
     public List<Conta> listar(Integer idUsuario) {
@@ -79,13 +59,13 @@ public class ContaDAO extends HttpServlet implements InterfaceBaseDAO<Conta> {
     }
     
     @Override
-    public void salvar(Conta conta) {
+    public void salvar(Conta conta) throws Exception {
         try {
             String query;
             if(conta.getId() != null) {
                 query = "update contas set nome_conta=?, banco=?, agencia=?, conta_corrente=? where id = ?";
             } else {
-                query = "insert into contas(nome_conta,banco,agencia,conta_corrente, id_usuario) values (?, ?, ?, ?)";
+                query = "insert into contas(nome_conta,banco,agencia,conta_corrente, id_usuario) values (?, ?, ?, ?, ?)";
             }
                        
             PreparedStatement sql  = conexao.prepareStatement(query);
@@ -105,6 +85,7 @@ public class ContaDAO extends HttpServlet implements InterfaceBaseDAO<Conta> {
             sql.close();
         } catch (SQLException e) {
             System.out.println("Erro ao cadastrar conta: " + e.getMessage());
+            throw new Exception("Erro ao cadastrar conta");
         }
     }
     
@@ -128,6 +109,7 @@ public class ContaDAO extends HttpServlet implements InterfaceBaseDAO<Conta> {
                 conta.setContaCorrente(rs.getString("conta_corrente"));
                 
                 conta.setUsuario(usuarioDAO.buscarPorId(rs.getInt("id_usuario")));
+                
             }
             
         } catch( SQLException e ) {
@@ -137,16 +119,41 @@ public class ContaDAO extends HttpServlet implements InterfaceBaseDAO<Conta> {
     }
     
     @Override
-    public boolean excluir(int id, Session session) {
+    public boolean excluir(int id, Session session) throws Exception {
+        if(existeLancamento(id)) {
+            throw new Exception("Não é possível excluir a conta informada, existem lançamentos vinculados a ela. Exclua primeiro os lançamentos antes de tentar excluir a conta.");
+        }
+        
         try {
-            String sql = "DELETE FROM contas WHERE id = ?";
+            String sql = "DELETE FROM contas WHERE id = ? AND id_usuario = ?";
             PreparedStatement ps = conexao.prepareStatement(sql);
             ps.setInt(1, id);
+            ps.setInt(2, session.getIdUsuario());
             ps.execute();
             return true;
         } catch( SQLException e ) {
             System.out.println("Erro ao excluir conta de id " + id + ": " + e.getMessage());
-            return false;
+            throw new Exception("Não foi possível excluir a conta informada");
         }
+    }
+    
+    private boolean existeLancamento(int id) throws Exception {
+        try {
+            String sql = "select 1 from lancamentos where id_conta = ?";
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ps.setInt(1, id);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            if ( rs.next() ) {
+                return true;
+            }
+            
+        } catch( SQLException e ) {
+            System.out.println("Erro ao buscar lançamentos com id_conta = " + id + ": " + e.getMessage());
+            throw new Exception("Não foi possível verificar os lançamentos da conta informada");
+        }
+        
+        return false;
     }
 }

@@ -6,7 +6,7 @@
         <%@include file="/header.html" %>
     </head>
     <body>
-        <jsp:include page="/interno/sidebar.jsp" />
+        <jsp:include page="sidebar.jsp" />
         <section class="home-section">
             <%@page import="aplicacao.Categoria"%>
             <% Categoria categoria = (Categoria)request.getAttribute("categoria"); %>

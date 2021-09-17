@@ -34,30 +34,7 @@ public class LancamentoDAO extends HttpServlet implements InterfaceBaseDAO<Lanca
     
     @Override
     public List<Lancamento> listar() {
-        List<Lancamento> resultado = new ArrayList<>();
-        try {
-            Statement st = conexao.createStatement();
-            ResultSet rs = st.executeQuery("select * from lancamentos");
-            
-            while(rs.next()) {
-                Lancamento lancamento = new Lancamento();
-                lancamento.setId(rs.getInt("id"));
-                lancamento.setValor(rs.getDouble("valor"));
-                lancamento.setOperacao(rs.getString("operacao"));
-                lancamento.setData(rs.getDate("data").toLocalDate());
-                lancamento.setDescricao(rs.getString("descricao"));
-                
-                lancamento.setConta(contaDAO.buscarPorId(rs.getInt("id_conta")));
-                lancamento.setCategoria(
-                        categoriaDAO.buscarPorId(rs.getInt("id_categoria")));
-                
-                resultado.add(lancamento);
-            } 
-        } catch (SQLException e) {
-            System.out.println("Erro ao listar lancamentos: " + e.getMessage());
-        }
-        
-        return resultado;
+        throw new UnsupportedOperationException("Listagem sem filtrar por usuário não permitida");
     }
     
     public List<Lancamento> listar(Integer idUsuario) {
@@ -103,7 +80,7 @@ public class LancamentoDAO extends HttpServlet implements InterfaceBaseDAO<Lanca
     }
     
     @Override
-    public void salvar(Lancamento lancamento) {
+    public void salvar(Lancamento lancamento) throws Exception {
         try {
             String query;
             if(lancamento.getId() != null) {
@@ -129,6 +106,7 @@ public class LancamentoDAO extends HttpServlet implements InterfaceBaseDAO<Lanca
             sql.close();
         } catch (SQLException e) {
             System.out.println("Erro ao cadastrar lancamento: " + e.getMessage());
+            throw new Exception("Erro ao cadastrar lancamento");
         }
     }
     
@@ -163,7 +141,7 @@ public class LancamentoDAO extends HttpServlet implements InterfaceBaseDAO<Lanca
     }
     
     @Override
-    public boolean excluir(int id, Session session) {
+    public boolean excluir(int id, Session session) throws Exception {
         try {
             String sql = "DELETE lancamentos "
                         + "FROM lancamentos "
@@ -178,11 +156,7 @@ public class LancamentoDAO extends HttpServlet implements InterfaceBaseDAO<Lanca
             return true;
         } catch( SQLException e ) {
             System.out.println("Erro ao excluir lancamento de id " + id + ": " + e.getMessage());
-            return false;
+            throw new Exception("Não foi possível excluir o lancamento informado");
         }
-    }
-    
-    public Double buscarSaldo(Integer idUsuario) {
-        return null;
     }
 }

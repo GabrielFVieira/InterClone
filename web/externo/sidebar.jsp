@@ -14,7 +14,7 @@
             <span class="tooltip">Dashboard</span>
         </li>
         <li>
-            <a onClick="gerarURL('#')">
+            <a onClick="gerarURL('contas')">
                 <i class="bx bx-money"></i>
                 <span class="links_name">Conta-Corrente</span>
             </a>

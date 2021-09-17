@@ -10,7 +10,7 @@
         <%@page import="java.util.List"%>
         <%@page import="java.util.ArrayList"%>
         
-        <jsp:include page="/externo/sidebar.jsp" />
+        <jsp:include page="sidebar.jsp" />
         <section class="home-section">
             <div class="main-form">
                 <h2 class="text-center mb-3">Balancete</h2>

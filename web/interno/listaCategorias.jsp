@@ -10,9 +10,10 @@
         <%@page import="aplicacao.Categoria"%>
         <%@page import="java.util.Iterator"%> 
 
-        <jsp:include page="/interno/sidebar.jsp" />
+        <jsp:include page="sidebar.jsp" />
         <section class="home-section">
             <div class="page-container">
+                <jsp:include page="/componentes/alert_error.jsp" />
                 <h2>Listagem de Categorias</h2>
                 
                 <a class="table-button btn text-white" onClick="gerarURL('categorias', 'cadastrar');">Nova Categoria</a>    

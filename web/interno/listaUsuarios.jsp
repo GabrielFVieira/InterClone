@@ -10,9 +10,10 @@
         <%@page import="aplicacao.Usuario"%>
         <%@page import="java.util.Iterator"%> 
 
-        <jsp:include page="/interno/sidebar.jsp" />
+        <jsp:include page="sidebar.jsp" />
         <section class="home-section">
             <div class="page-container">
+                <jsp:include page="/componentes/alert_error.jsp" />
                 <h2>Listagem de Usuários</h2>
                 
                 <div class="d-flex flex-row justify-content-between align-items-baseline">

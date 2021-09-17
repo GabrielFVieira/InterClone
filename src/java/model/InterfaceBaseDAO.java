@@ -11,5 +11,5 @@ public interface InterfaceBaseDAO<T extends Object> {
     
     public void salvar(T obj) throws Exception;
     
-    public boolean excluir(int id, Session session);
+    public boolean excluir(int id, Session session) throws Exception;
 }

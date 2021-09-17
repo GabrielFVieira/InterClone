@@ -16,6 +16,10 @@
                 btn.addClass('bx-menu');
             }
         });
+        
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
     });
     
     function gerarURL(page, acao, id, filtro, valorFiltro) {

@@ -7,7 +7,8 @@ public class Conta {
     private String agencia;
     private String contaCorrente;
     private Usuario usuario;
-
+    private String nomeBanco;
+    
     public Integer getId() {
         return id;
     }
@@ -30,6 +31,15 @@ public class Conta {
 
     public void setBanco(String banco) {
         this.banco = banco;
+        if(banco != null && !banco.isEmpty()) {
+            this.nomeBanco = Bancos.getNomeBanco(banco);
+        } else {
+            this.nomeBanco = null;
+        }
+    }
+    
+    public String getNomeBanco() {
+        return nomeBanco;
     }
 
     public String getAgencia() {

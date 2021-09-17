@@ -7,7 +7,7 @@
         <%@include file="/header.html" %>
     </head>
     <body>
-        <jsp:include page="/externo/sidebar.jsp" />
+        <jsp:include page="sidebar.jsp" />
             <section class="home-section flex-column">
                 <% Session sessaoCorrente = (Session) session.getAttribute("session"); %>                                        
                 <div class="text">
@@ -18,7 +18,7 @@
                     <br><br><br>
                     Obs.: O balancete se encontra no botão circular azul dentro da tela de 
                     <a href="lancamentos"><b>Lançamentos</b></a>
-                </div><
+                </div>
             </section>
 
         <%@include file="/base_scripts.html" %>

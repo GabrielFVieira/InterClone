@@ -163,7 +163,7 @@ public class LancamentoController extends BaseController<Lancamento> {
     }
     
     @Override
-    protected void redirecionarParaListagem(InterfaceBaseDAO<Lancamento> dao, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void redirecionarParaListagem(InterfaceBaseDAO<Lancamento> dao, HttpServletRequest request, HttpServletResponse response, String erro) throws ServletException, IOException {
         LancamentoDAO lancamentoDAO = (LancamentoDAO) dao;
         Session sessao = buscarSessao(request);
         
@@ -188,6 +188,13 @@ public class LancamentoController extends BaseController<Lancamento> {
                     
             lancamentosData.add(lancamento);
             mapaLancamentos.put(lancamento.getData(), lancamentosData);
+        }
+        
+        if(erro != null && !erro.isEmpty()) {
+            Map<String, String> erros = new HashMap<>();
+            erros.put(Validador.ALERTA, erro);
+            
+            request.setAttribute(Validador.ERROS, erros);
         }
         
         request.setAttribute("saldo", saldo);

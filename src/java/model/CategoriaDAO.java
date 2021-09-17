@@ -71,6 +71,7 @@ public class CategoriaDAO extends HttpServlet implements InterfaceBaseDAO<Catego
             sql.close();
         } catch (SQLException e) {
             System.out.println("Erro ao cadastrar categoria: " + e.getMessage());
+            throw new Exception("Erro ao cadastrar categoria");
         }
     }
     
@@ -118,7 +119,11 @@ public class CategoriaDAO extends HttpServlet implements InterfaceBaseDAO<Catego
     }
     
     @Override
-    public boolean excluir(int id, Session session) {
+    public boolean excluir(int id, Session session) throws Exception {
+        if(existeLancamento(id)) {
+            throw new Exception("Não é possível excluir a categoria informada, existem lançamentos vinculados a ela.");
+        }
+                
         try {
             String sql = "DELETE FROM categorias WHERE id = ?";
             PreparedStatement ps = conexao.prepareStatement(sql);
@@ -127,7 +132,27 @@ public class CategoriaDAO extends HttpServlet implements InterfaceBaseDAO<Catego
             return true;
         } catch( SQLException e ) {
             System.out.println("Erro ao excluir categoria de id " + id + ": " + e.getMessage());
-            return false;
+            throw new Exception("Não foi possível excluir a categoria informada");
         }
+    }
+    
+    private boolean existeLancamento(int id) throws Exception {
+        try {
+            String sql = "select 1 from lancamentos where id_categoria = ?";
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ps.setInt(1, id);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            if ( rs.next() ) {
+                return true;
+            }
+            
+        } catch( SQLException e ) {
+            System.out.println("Erro ao buscar lançamentos com id_conta = " + id + ": " + e.getMessage());
+            throw new Exception("Não foi possível verificar os lançamentos da conta informada");
+        }
+        
+        return false;
     }
 }

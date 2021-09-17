@@ -48,7 +48,7 @@ public class AdminDAO extends HttpServlet implements InterfaceBaseDAO<Administra
     }
     
     @Override
-    public void salvar(Administrador administrador) {
+    public void salvar(Administrador administrador)  throws Exception {
         try {   
             String query;
             if(administrador.getId() != null) {
@@ -72,6 +72,7 @@ public class AdminDAO extends HttpServlet implements InterfaceBaseDAO<Administra
             sql.close();
         } catch (SQLException e) {
             System.out.println("Erro ao cadastrar administrador: " + e.getMessage());
+            throw new Exception("Erro ao cadastrar administrador");
         }
     }
     
@@ -123,7 +124,7 @@ public class AdminDAO extends HttpServlet implements InterfaceBaseDAO<Administra
     }
     
     @Override
-    public boolean excluir(int id, Session session) {
+    public boolean excluir(int id, Session session) throws Exception {
         try {
             String sql = "DELETE FROM administradores WHERE id = ?";
             PreparedStatement ps = conexao.prepareStatement(sql);
@@ -132,7 +133,7 @@ public class AdminDAO extends HttpServlet implements InterfaceBaseDAO<Administra
             return true;
         } catch( SQLException e ) {
             System.out.println("Erro ao excluir administrador de id " + id + ": " + e.getMessage());
-            return false;
+            throw new Exception("Não foi possível excluir o administrador informado");
         }
     }
 }

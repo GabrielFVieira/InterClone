@@ -38,7 +38,7 @@ public abstract class BaseController<T extends Object> extends SessionController
         String acao = (String) request.getParameter("acao");
         
         if(acao == null) {
-            redirecionarParaListagem(dao, request, response);
+            redirecionarParaListagem(dao, request, response, null);
             return;
         }
         
@@ -60,8 +60,13 @@ public abstract class BaseController<T extends Object> extends SessionController
                 break;
             
             case "excluir":
-                id = Integer.parseInt(request.getParameter("id"));
-                dao.excluir(id, buscarSessao(request));
+                try {
+                    id = Integer.parseInt(request.getParameter("id"));
+                    dao.excluir(id, buscarSessao(request));                    
+                } catch (Exception e) {
+                    redirecionarParaListagem(dao, request, response, e.getMessage());
+                    break;
+                }
                 
                 String filtroRedirect = "";
                 if(request.getParameter("filtro") != null) {
@@ -72,12 +77,19 @@ public abstract class BaseController<T extends Object> extends SessionController
                 break;
             
             default:
-                redirecionarParaListagem(dao, request, response);
+                redirecionarParaListagem(dao, request, response, null);
                 break;
         }
     }
     
-    protected void redirecionarParaListagem(InterfaceBaseDAO<T> dao, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void redirecionarParaListagem(InterfaceBaseDAO<T> dao, HttpServletRequest request, HttpServletResponse response, String erro) throws ServletException, IOException {
+        if(erro != null && !erro.isEmpty()) {
+            Map<String, String> erros = new HashMap<>();
+            erros.put(Validador.ALERTA, erro);
+            
+            request.setAttribute(Validador.ERROS, erros);
+        }
+        
         request.setAttribute(getAtributoListaJSP(), dao.listar());
         RequestDispatcher rd = request.getRequestDispatcher(getPaginaListagem());
         rd.forward(request, response);
@@ -85,7 +97,7 @@ public abstract class BaseController<T extends Object> extends SessionController
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(!verificaSessao(request, response)) {
+        if(!verificaSessao(request, response, getTipoSessaoNecessaria())) {
             return;
         }
         

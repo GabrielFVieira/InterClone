@@ -32,7 +32,7 @@ public class ContaController extends BaseController<Conta> {
 
     @Override
     protected String getPaginaCadastro() {
-        return "/externo/cadastroContas.jsp";
+        return "/externo/cadastroConta.jsp";
     }
 
     @Override
@@ -101,19 +101,19 @@ public class ContaController extends BaseController<Conta> {
             }
             
             try {
-                Validador.validarCampoTexto(modelo.getAgencia(), null, 20);
+                Validador.validarCampoTexto(modelo.getAgencia(), null, 6);
             } catch (Exception err) {
                 erros.put("agency", err.getMessage());           
             }
                         
             try {
-                Validador.validarCampoTexto(modelo.getBanco(), null, 20);
+                Validador.validarCampoTexto(modelo.getBanco(), 3, 3);
             } catch (Exception err) {
                 erros.put("bank", err.getMessage());           
             }
                                     
             try {
-                Validador.validarCampoTexto(modelo.getContaCorrente(), null, 20);
+                Validador.validarCampoTexto(modelo.getContaCorrente(), null, 6);
             } catch (Exception err) {
                 erros.put("account", err.getMessage());           
             }
@@ -122,8 +122,15 @@ public class ContaController extends BaseController<Conta> {
     }
     
     @Override
-    protected void redirecionarParaListagem(InterfaceBaseDAO<Conta> dao, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void redirecionarParaListagem(InterfaceBaseDAO<Conta> dao, HttpServletRequest request, HttpServletResponse response, String erro) throws ServletException, IOException {
         ContaDAO contaDAO = (ContaDAO) dao;
+        
+        if(erro != null && !erro.isEmpty()) {
+            Map<String, String> erros = new HashMap<>();
+            erros.put(Validador.ALERTA, erro);
+            
+            request.setAttribute(Validador.ERROS, erros);
+        }
         
         request.setAttribute(getAtributoListaJSP(), contaDAO.listar(buscarSessao(request).getIdUsuario()));
         RequestDispatcher rd = request.getRequestDispatcher(getPaginaListagem());

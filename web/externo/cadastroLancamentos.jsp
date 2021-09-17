@@ -6,7 +6,7 @@
         <%@include file="/header.html" %>
     </head>
     <body>
-        <jsp:include page="/externo/sidebar.jsp" />
+        <jsp:include page="sidebar.jsp" />
         <section class="home-section">
             <%@page import="java.util.ArrayList"%>
             <%@page import="aplicacao.Lancamento"%>

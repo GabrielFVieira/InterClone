@@ -49,7 +49,7 @@ public class UsuarioDAO extends HttpServlet implements InterfaceBaseDAO<Usuario>
     }
     
     @Override
-    public void salvar(Usuario usuario) {
+    public void salvar(Usuario usuario) throws Exception {
         try {
             String query;
             if(usuario.getId() != null) {
@@ -74,6 +74,7 @@ public class UsuarioDAO extends HttpServlet implements InterfaceBaseDAO<Usuario>
             sql.close();
         } catch (SQLException e) {
             System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
+            throw new Exception("Erro ao cadastrar usuário");
         }
     }
     
@@ -127,7 +128,7 @@ public class UsuarioDAO extends HttpServlet implements InterfaceBaseDAO<Usuario>
     }
     
     @Override
-    public boolean excluir(int id, Session session) {
+    public boolean excluir(int id, Session session) throws Exception {
         try {
             String sql = "DELETE FROM usuarios WHERE id = ?";
             PreparedStatement ps = conexao.prepareStatement(sql);
@@ -136,7 +137,7 @@ public class UsuarioDAO extends HttpServlet implements InterfaceBaseDAO<Usuario>
             return true;
         } catch( SQLException e ) {
             System.out.println("Erro ao excluir usuário de id " + id + ": " + e.getMessage());
-            return false;
+            throw new Exception("Não foi possível excluir o usuário informado");
         }
     }
 }
