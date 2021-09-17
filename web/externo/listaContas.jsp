@@ -20,11 +20,16 @@
                 </div>
                 
                 <div class="d-flex align-content-center justify-content-center">
-                    <% if(request.getAttribute("contas") != null) { %>
+                    <% if(request.getAttribute("contas") != null) { 
+                        ArrayList<Conta> listaContas = (ArrayList<Conta>) request.getAttribute("contas");
+                    
+                        if(listaContas.isEmpty()) { %>
+                            <h4 class="mt-4 text-center">Nenhuma conta-corrente cadastrada</h4>
+                        <% }%>
+                    
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
                       <ol class="carousel-indicators">
-                        <% ArrayList<Conta> listaContas = (ArrayList<Conta>) request.getAttribute("contas");
-                        for (int i = 0; i < listaContas.size(); i++) { %>
+                        <% for (int i = 0; i < listaContas.size(); i++) { %>
                             <li data-target="#carouselExampleIndicators" style="filter: invert(100%);" data-slide-to="<%= i %>" <%= i == 0 ? " class=\"active\" " : "" %>></li>
                         <% } %>
                       </ol>
@@ -83,8 +88,6 @@
                         <span class="sr-only">Next</span>
                       </a>
                     </div>   
-                    <% } else { %>
-                        <h2>Nenhuma conta-corrente cadastrada</h2>
                     <% } %>
                 </div>
             </div>

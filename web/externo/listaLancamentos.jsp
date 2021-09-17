@@ -67,7 +67,7 @@
                     Map<LocalDate, List<Lancamento>> mapaLancamentos = (Map<LocalDate, List<Lancamento>>) request.getAttribute("lancamentos");
                     
                     if(mapaLancamentos.isEmpty()) { %>
-                        <h4 class="mt-4">Nenhum lançamento realizado</h4>
+                        <h4 class="mt-4 text-center">Nenhum lançamento realizado</h4>
                     <% }
 
                     for (Map.Entry<LocalDate, List<Lancamento>> en : mapaLancamentos.entrySet()) {
