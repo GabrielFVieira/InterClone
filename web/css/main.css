@@ -277,6 +277,14 @@ body {
     color: white;
 }
 
+.card-purple {
+    background-color: #612F74;
+}
+
+.card-red {
+    background-color: #CC092F;
+}
+
 .account-card .card-header {
     margin-top: 1.3rem;
     background-color: #C0C0C0;
@@ -331,6 +339,14 @@ body {
     align-items: center;
     margin-top: 1rem !important;
     border-radius: 50% !important;
+}
+
+.card-purple * .account-card-btn-container a {
+    background-color: #9c44dc;
+}
+
+.card-red * .account-card-btn-container a {
+    background-color: #231F20;
 }
 
 .account-card .account-card-field {

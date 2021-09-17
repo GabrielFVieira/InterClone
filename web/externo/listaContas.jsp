@@ -35,13 +35,28 @@
                       </ol>
                       <div class="carousel-inner">
                         <%
+                            int colorCode = 0;
                             for (int i = 0; i < listaContas.size(); i++) {
                                 Conta conta = listaContas.get(i);
                         %>
                             <div class="carousel-item <%= i == 0 ? "active" : "" %>" >
                                 <div class="card-container">
                                     <div class="outer">
-                                        <div class="account-card">
+                                        <div class="account-card 
+                                           <% switch(colorCode) {
+                                                case 1: %> 
+                                                   card-purple 
+                                                <% colorCode++;
+                                                   break;
+                                                case 2: %> 
+                                                   card-red 
+                                                <% colorCode = 0;
+                                                   break;
+                                                default:
+                                                   colorCode++;
+                                                   break;
+                                            } %>
+                                            ">
                                             <div class="card-header"></div>
                                             <div class="account-card-body-container">
                                                 <div class="card-body">
