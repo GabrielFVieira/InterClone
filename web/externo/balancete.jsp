@@ -9,6 +9,7 @@
         <%@page import="aplicacao.Conta"%>
         <%@page import="java.util.List"%>
         <%@page import="java.util.ArrayList"%>
+        <%@page import="java.util.Map"%>
         
         <jsp:include page="sidebar.jsp" />
         <section class="home-section">
@@ -21,6 +22,7 @@
                 
                 <% final String GRAFICO = "grafico";
                    final String TABELA = "tabela";
+                   final boolean isVazio = request.getAttribute("dados") == null || ((Map<String, Double>) request.getAttribute("dados")).isEmpty();
                    String tipo = request.getParameter("tipo") != null ? (String) request.getParameter("tipo") : GRAFICO; 
                    String novoTipo = GRAFICO.equals(tipo) ? TABELA : GRAFICO; %>
                 
@@ -49,11 +51,15 @@
                 </div>
                         
                 <div class="chart-container mt-4">
-                    <% if(TABELA.equals(tipo)) { %>
-                        <jsp:include page="balancete/tabelaBalancete.jsp" />
-                    <% } else { %>
-                        <canvas id="myChart" />
-                    <% } %>
+                    <% if(!isVazio) {
+                        if(TABELA.equals(tipo)) { %>
+                            <jsp:include page="balancete/tabelaBalancete.jsp" />
+                        <% } else { %>
+                            <canvas id="myChart" />
+                        <% }
+                       } else { %>
+                            <h4 class="mt-4 text-center">Nenhum lançamento realizado</h4> 
+                       <% } %>
                 </div>
             </div>
         </section>
@@ -81,7 +87,7 @@
                 }
             }
         </script>
-        <% if(GRAFICO.equals(tipo)) { %>
+        <% if(!isVazio && GRAFICO.equals(tipo)) { %>
             <jsp:include page="balancete/scriptsGraficoBalancete.jsp" />
         <% } %>        
     </body>
