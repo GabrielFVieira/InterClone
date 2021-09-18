@@ -123,9 +123,7 @@
             }
             
             $('.carousel').on('slide.bs.carousel',function(e){
-                var slideFrom = $(this).find('.active').index();
                 var slideTo = $(e.relatedTarget).index();
-                console.log(e);
                 $('#account').val(slideTo);
             });
         </script>
