@@ -9,6 +9,7 @@ public class Validador {
     private static final String MSG_CPF_INVALIDO = "CPF Inválido";
     public static final String MSG_CAMPO_OBRIGATORIO = "Campo obrigatório";
     private static final int MIN_CARACTERES_SENHA = 3;
+    private static final int MAX_CARACTERES_SENHA = 255;
     private static UsuarioDAO usuarioDAO = new UsuarioDAO();
     private static AdminDAO adminDAO = new AdminDAO();
     
@@ -110,7 +111,7 @@ public class Validador {
     
     
     public static void validarSenha(String senha) {
-        validarCampoTexto(senha, MIN_CARACTERES_SENHA, null);
+        validarCampoTexto(senha, MIN_CARACTERES_SENHA, MAX_CARACTERES_SENHA);
     }
     
     public static void validarNovoCPF(String cpf) {

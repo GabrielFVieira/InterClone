@@ -91,6 +91,7 @@
                         password: {
                             required: true,
                             minlength: 3,
+                            maxlength: 255,
                         },
                         confirmPassword: {
                             required: true,
