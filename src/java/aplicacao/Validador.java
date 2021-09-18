@@ -83,7 +83,7 @@ public class Validador {
             throw new IllegalArgumentException(MSG_CAMPO_OBRIGATORIO);
         }
         
-        if(valor.longValue() == 0) {
+        if(valor.doubleValue() == 0.0) {
             throw new IllegalArgumentException("Preencha um valor diferente de zero");
         }
     }

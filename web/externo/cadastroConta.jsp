@@ -36,20 +36,28 @@
                     </div>
                 </div>
                 <div class="row mb-4">
-                    <div class="col">
+                    <div class="col-sm-4">
                         <div class="form-group">
                             <label for="bank">Banco:</label>
                             <input type="text" class="form-control" name="bank" id="bank" onchange="getBankName()" value="<%= conta.getBanco() %>" />
-                        </div>
-                        <p id="bankName"><%= conta.getNomeBanco() != null ? conta.getNomeBanco() : "" %></p>
+                        </div>                       
                     </div>
-                    <div class="col">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <input type="text" readonly class="form-control" name="bankName" id="bankName" value="<%= conta.getNomeBanco() != null ? conta.getNomeBanco() : "" %>" 
+                                   style="overflow: hidden; text-overflow: ellipsis;"/>
+                        </div>  
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-sm">
                         <div class="form-group">
                             <label for="agency">Agência:</label>
                             <input type="text" class="form-control" name="agency" id="agency" value="<%= conta.getAgencia() %>" />
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-sm">
                         <div class="form-group">
                             <label for="account">Conta-corrente:</label>
                             <input type="text" class="form-control" name="account" id="account" value="<%= conta.getContaCorrente() %>" />
@@ -84,6 +92,7 @@
                         },
                         bank: {
                             required: true,
+                            minlength: bankMaxLength,
                             maxlength: bankMaxLength,
                         },
                         agency: {
@@ -116,7 +125,7 @@
                 }
                 
                 const bankNameText = document.getElementById('bankName')
-                bankNameText.innerHTML = bankName;
+                bankNameText.value = bankName;
             }
         </script>
     </body>

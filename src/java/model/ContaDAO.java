@@ -150,7 +150,8 @@ public class ContaDAO extends HttpServlet implements InterfaceBaseDAO<Conta> {
     @Override
     public boolean excluir(int id, Session session) throws Exception {
         if(existeLancamento(id)) {
-            throw new Exception("Não é possível excluir a conta informada, existem lançamentos vinculados a ela. Exclua primeiro os lançamentos antes de tentar excluir a conta.");
+            throw new Exception("Não é possível excluir a conta informada, existem lançamentos vinculados a ela. \n"
+                    + "Exclua primeiro os lançamentos antes de tentar excluir a conta.");
         }
         
         try {
