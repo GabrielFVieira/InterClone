@@ -89,6 +89,35 @@ public class ContaDAO extends HttpServlet implements InterfaceBaseDAO<Conta> {
         }
     }
     
+    public Conta buscar(String banco, String agencia, String contaCorrente) {
+            Conta conta = null;
+        try {
+            String sql = "select * from contas where banco = ? and agencia = ? and conta_corrente = ?";
+            
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ps.setString(1, banco);
+            ps.setString(2, agencia);
+            ps.setString(3, contaCorrente);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            if ( rs.next() ) {
+                conta = new Conta();
+                conta.setId(rs.getInt("id"));
+                conta.setNome(rs.getString("nome_conta"));
+                conta.setBanco(rs.getString("banco"));
+                conta.setAgencia(rs.getString("agencia"));
+                conta.setContaCorrente(rs.getString("conta_corrente"));
+                
+                conta.setUsuario(usuarioDAO.buscarPorId(rs.getInt("id_usuario")));
+            }
+            
+        } catch( SQLException e ) {
+            System.out.println("Erro ao buscar conta: " + e.getMessage());
+        }
+        return conta;
+    }
+    
     @Override
     public Conta buscarPorId(int id) {
         Conta conta = null;

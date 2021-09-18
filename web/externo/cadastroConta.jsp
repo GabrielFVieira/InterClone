@@ -12,10 +12,12 @@
             <%@page import="aplicacao.Conta"%>
             <% Conta conta = (Conta)request.getAttribute("conta"); %>
             
-            <form id="form" class="main-form" action="contas" method="post">
+             <% String pos = request.getParameter("pos") == null ? "" : "?pos=" + request.getParameter("pos"); %>
+            
+            <form id="form" class="main-form" action="contas<%= pos %>" method="post">
                 <h2 class="text-center mb-2"><%= conta.getId() != null ? "Editar" : "Cadastrar" %> Conta</h2>
-
-                <a onClick="gerarURL('contas')" id="btnCancel">
+               
+                <a onClick="gerarURL('contas<%= pos %>')" id="btnCancel">
                     <img src="images/icons/close.png" alt="Cancelar" title="Cancelar" />
                 </a>
                 

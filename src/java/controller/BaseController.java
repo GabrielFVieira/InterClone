@@ -70,10 +70,11 @@ public abstract class BaseController<T extends Object> extends SessionController
                 
                 String filtroRedirect = "";
                 if(request.getParameter("filtro") != null) {
+                    filtroRedirect = "?";
                     filtroRedirect += request.getParameter("filtro") + "=";
                     filtroRedirect += request.getParameter("valorFiltro");
                 }
-                response.sendRedirect(getUrlPattern() + "?" + filtroRedirect);
+                response.sendRedirect(getUrlPattern() + filtroRedirect);
                 break;
             
             default:
@@ -115,7 +116,10 @@ public abstract class BaseController<T extends Object> extends SessionController
             InterfaceBaseDAO<T> dao = getDAO();
             dao.salvar(modelo);
 
-            response.sendRedirect(getUrlPattern());
+            // Caso exista filtro de posição
+            String pos = request.getParameter("pos") != null ? "?pos=" + request.getParameter("pos") : "";
+            
+            response.sendRedirect(getUrlPattern() + pos);
         } catch (Exception err) {
             erros.put(Validador.ALERTA, err.getMessage());
             redirecionarParaCadastro(request, response, modelo, erros);

@@ -92,33 +92,38 @@ public class ContaController extends BaseController<Conta> {
 
     @Override
     protected Map<String, String> validarModelo(Conta modelo, Session session) {
-            Map<String, String> erros = new HashMap<>();
-            
-            try {
-                Validador.validarCampoTexto(modelo.getNome(), null, 20);
-            } catch (Exception err) {
-                erros.put("name", err.getMessage());           
-            }
-            
-            try {
-                Validador.validarCampoTexto(modelo.getAgencia(), null, 6);
-            } catch (Exception err) {
-                erros.put("agency", err.getMessage());           
-            }
-                        
-            try {
-                Validador.validarCampoTexto(modelo.getBanco(), 3, 3);
-            } catch (Exception err) {
-                erros.put("bank", err.getMessage());           
-            }
-                                    
-            try {
-                Validador.validarCampoTexto(modelo.getContaCorrente(), null, 6);
-            } catch (Exception err) {
-                erros.put("account", err.getMessage());           
-            }
-                        
-            return erros;
+        Map<String, String> erros = new HashMap<>();
+
+        try {
+            Validador.validarCampoTexto(modelo.getNome(), null, 20);
+        } catch (Exception err) {
+            erros.put("name", err.getMessage());           
+        }
+
+        try {
+            Validador.validarCampoTexto(modelo.getAgencia(), null, 6);
+        } catch (Exception err) {
+            erros.put("agency", err.getMessage());           
+        }
+
+        try {
+            Validador.validarCampoTexto(modelo.getBanco(), 3, 3);
+        } catch (Exception err) {
+            erros.put("bank", err.getMessage());           
+        }
+
+        try {
+            Validador.validarCampoTexto(modelo.getContaCorrente(), null, 6);
+        } catch (Exception err) {
+            erros.put("account", err.getMessage());           
+        }
+
+        Conta conta = new ContaDAO().buscar(modelo.getBanco(), modelo.getAgencia(), modelo.getContaCorrente());
+        if(conta != null && (modelo.getId() == null || !modelo.getId().equals(conta.getId()))) {
+            erros.put(Validador.ALERTA, "Conta-Corrente já cadastrada");
+        }
+
+        return erros;
     }
     
     @Override
